@@ -1,0 +1,15 @@
+/**
+全局通用样式
+ */
+@import "./var.scss";
+
+// 在线的 span
+.online {
+  color: $font-color-primary;
+}
+.breakdown {
+  color: $font-color-gold-dark;
+}
+.offline {
+  color: $font-color-gray;
+}

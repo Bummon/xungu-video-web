@@ -1,0 +1,311 @@
+@import "@/styles/var.scss";
+
+$bgc: rgb(173 171 171 / 44%);
+$gray-3: rgb(132 131 131 / 45%);
+$gray-2: rgb(128 125 125 / 60%);
+$gray-1: rgb(116 113 113 / 40%);
+$black-1: rgb(0 0 0 / 30%);
+$shadowBlack: rgb(50 51 52 / 67%);
+
+@import "@/styles/var";
+div,
+span,
+p {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.remoteControl-container {
+  width: 100%;
+  height: 100%;
+  background-image: url("./images/bg.png");
+  background-size: 100% 100%;
+  .dataScreen {
+    width: 100%;
+    height: 100%;
+    .header {
+      display: flex;
+      width: 100%;
+      height: 78px;
+      overflow: hidden;
+      border-radius: 10px;
+      .header-lf,
+      .header-rg {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 567px;
+        .header-area {
+          padding: 0 2vw;
+          font-family: YouSheBiaoTiHei;
+          font-size: 2.5vh;
+          font-weight: 400;
+          text-align: center;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+      }
+      .header-ct {
+        position: relative;
+        flex: 1;
+        min-width: 500px;
+        height: 100%;
+        .header-ct-title {
+          overflow: hidden;
+          font-family: YouSheBiaoTiHei;
+          font-size: 32px;
+          color: var(--el-color-primary);
+          text-align: center;
+          letter-spacing: 4px;
+          span {
+            padding: 5px 10px;
+            line-height: 75px;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+    .main {
+      box-sizing: border-box;
+      display: flex;
+      flex: 1;
+      width: 100%;
+      height: calc(100% - 78px);
+      padding: 10px;
+      .main-lf {
+        width: 300px;
+        height: 100%;
+        margin-left: 20px;
+        overflow: hidden;
+
+        // background: $gray-1;
+        background-color: rgb(0 0 0 / 10%);
+        backdrop-filter: blur(5px);
+        background-size: 100% 100%;
+        border-radius: 10px;
+        .list-title {
+          padding: 5px 10px;
+          font-size: 22px;
+          font-weight: bold;
+          color: #ffffff;
+          background-color: $card-header-bgc;
+        }
+        .room-items {
+          .room-item {
+            box-sizing: border-box;
+            width: calc(100% - 15px);
+            padding: 10px 5px 10px 20px;
+            margin: 5px auto;
+            color: #ffffff;
+            cursor: pointer;
+            background-color: $gray-2;
+            border-radius: 5px;
+            &:hover {
+              background-color: var(--el-color-primary-light-3);
+            }
+          }
+          .item-active {
+            background-color: var(--el-color-primary);
+          }
+        }
+      }
+      .main-ct {
+        display: flex;
+        flex: 1;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        height: 100%;
+        padding: 0 10px;
+        overflow-x: scroll;
+        .room-card {
+          position: relative;
+          box-sizing: border-box;
+          width: 380px;
+          margin: 0 20px 15px;
+          overflow: hidden;
+          background-color: transparent;
+          backdrop-filter: blur(5px);
+          border-radius: 10px;
+          box-shadow: 2px 2px 1px $shadowBlack;
+          .room-card-status {
+            position: absolute;
+            top: -15px;
+            right: -40px;
+            width: 100px;
+            height: 50px;
+            transform: rotate(45deg);
+            p {
+              position: absolute;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              font-size: 16px;
+              text-align: center;
+            }
+          }
+          .room-card-status-online {
+            background-color: var(--el-color-primary);
+          }
+          .room-card-status-outline {
+            background-color: var(--el-color-info);
+          }
+          .room-card-status-warning {
+            background-color: var(--el-color-warning);
+          }
+          .room-card-title {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            background: $card-header-bgc;
+            span {
+              margin-bottom: 12px;
+              font-size: 18px;
+              line-height: 16px;
+              color: #ffffff;
+              letter-spacing: 1px;
+            }
+            img {
+              width: 68px;
+              height: 7px;
+            }
+          }
+          .room-card-info {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgb(0 0 0 / 10%);
+            p {
+              width: 100%;
+              padding: 0 10px;
+              font-size: 16px;
+              color: #ffffff;
+              background-color: $black-1;
+            }
+            .room-card-info-footer {
+              display: flex;
+              margin-top: 10px;
+              .room-card-info-equipment {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                width: 70%;
+                height: 8vh;
+                background: linear-gradient(45deg, rgb(213 215 215 / 10%), rgb(0 12 12 / 10%), rgb(167 178 178 / 10%));
+                border: 2px solid #cecccc;
+                border-radius: 10px;
+                div {
+                  cursor: pointer;
+                  &:hover {
+                    background: linear-gradient(
+                      45deg,
+                      var(--el-color-primary-light-3),
+                      var(--el-color-primary-light-2),
+                      var(--el-color-primary-light-3)
+                    );
+                  }
+                }
+                p {
+                  margin: 0 auto;
+                  text-align: center;
+                }
+                .robotFont {
+                  font-family: "DSI1";
+                  font-size: 2vh;
+                }
+              }
+              .room-card-info-footer-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30%;
+                height: 80px;
+                margin-left: 15px;
+                button {
+                  width: 100px;
+                  height: 80px;
+                  line-height: 80px;
+                  color: $font-color-gold-light;
+                  text-align: center;
+                  cursor: pointer;
+                  background-color: $card-header-bgc;
+                  border-radius: 10px;
+                  &:hover {
+                    border: 3px solid var(--el-color-primary);
+                    box-shadow: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+:deep(.el-dialog) {
+  overflow: hidden;
+  background-color: rgb(0 0 0 / 20%);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  .el-dialog__header {
+    background-color: var(--el-color-primary-dark-2);
+    border: none;
+    .el-dialog__title {
+      font-weight: bold;
+      color: #ffffff;
+    }
+    .el-dialog__close {
+      font-size: 1.5vw;
+      color: #ffffff;
+    }
+  }
+  .el-dialog__body {
+    background-color: transparent;
+    .dialog_box {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: stretch;
+      max-height: 60vh;
+      overflow-y: scroll;
+      .firstAreaOption_button {
+        width: 10vw;
+        padding: 1vh 1vw;
+        margin: 1vh 1.5vw;
+        color: #ffffff;
+        cursor: pointer;
+        background-color: var(--el-color-primary);
+        border: 2px solid var(--el-color-primary);
+        border-radius: 0.5vh;
+      }
+      .firstAreaOption_button_active {
+        border: 2px solid #ffcd05;
+      }
+      .terminal_button {
+        padding: 0;
+        margin: 0 auto 1vh;
+        p {
+          display: flex;
+          width: 20vw;
+          padding: 1vh 1vw;
+          color: #000000;
+          cursor: pointer;
+          background-color: rgb(175 175 175 / 80%);
+          border: 2px solid #ffcd05;
+          border: none;
+          border-radius: 0.5vh;
+          .terminal-type {
+            flex: 1;
+            width: 8vw;
+          }
+          .terminal-name {
+            flex: 2;
+            width: 10vw;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

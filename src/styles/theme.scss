@@ -1,0 +1,10 @@
+@import "./mixins/config.scss";
+@import "./mixins/_dark.scss";
+@import "./mixins/_light.scss";
+
+$themes: (
+  // 亮白
+  #{$theme-light}: $light,
+  // 暗黑
+  #{$theme-dark}: $dark
+);

@@ -1,0 +1,133 @@
+/* global css variable */
+$primary-color: var(--el-color-primary);
+
+// 颜色
+$--color-red: #fc625d;
+$--color-warn: #fcbc40;
+$--color-success: #34c749;
+
+// 文字
+$--color-text: #1d2129;
+$--color-text-1: #4e5969;
+$--color-text-2: #86909c;
+$--color-text-3: #c9cdd4;
+$--color-text-4: #f2f3f5;
+
+// .mt-1 => margin top
+// spacing
+$spacing-base-size: 1em;
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+$spacing-directions: (
+  t: top,
+  r: right,
+  b: bottom,
+  l: left
+);
+$spacing-sizes: (
+  0: 0,
+  1: 0.25,
+  2: 0.5,
+  3: 1,
+  4: 1.5,
+  5: 2.5
+);
+
+// 变亮值
+$--light-shalow: 2%;
+
+// 白色
+$--color-light-bg: #ffffff;
+$--color-light-bg-1: #fafafc;
+$--color-light-bg-1-shallow: lighten($--color-light-bg-1, $--light-shalow);
+$--color-light-bg-2: #f2f3f5;
+$--color-light-bg-2-shallow: lighten($--color-light-bg-2, $--light-shalow);
+$--color-light-bg-3: #e5e6eb;
+$--color-light-bg-3-shallow: lighten($--color-light-bg-3, $--light-shalow);
+$--color-light-bg-4: #e3e3e4;
+$--color-light-bg-4-shallow: lighten($--color-light-bg-4, $--light-shalow);
+$--color-light-bg-5: #bebebe;
+$--color-light-bg-5-shallow: lighten($--color-light-bg-5, $--light-shalow);
+
+// 变暗值
+$--dark-shalow: 2%;
+
+// 黑色
+$--color-dark-black: #000000;
+$--color-dark-bg-1: #18181c;
+$--color-dark-bg-1-shallow: darken($--color-dark-bg-1, $--dark-shalow);
+$--color-dark-bg-2: #232324;
+$--color-dark-bg-2-shallow: darken($--color-dark-bg-2, $--dark-shalow);
+$--color-dark-bg-3: #2a2a2b;
+$--color-dark-bg-3-shallow: darken($--color-dark-bg-3, $--dark-shalow);
+$--color-dark-bg-4: #313132;
+$--color-dark-bg-4-shallow: darken($--color-dark-bg-4, $--dark-shalow);
+$--color-dark-bg-5: #373739;
+$--color-dark-bg-5-shallow: darken($--color-dark-bg-5, $--dark-shalow);
+
+// 最大宽度
+$--max-width: 1920px;
+
+// 顶部距离
+$--header-height: 60px;
+
+// 底部距离
+$--footer-height: 50px;
+
+// 模糊
+$--filter-blur-base: blur(20px);
+
+// 毛玻璃
+$--filter-color-login-dark: rgb(35 35 36 / 70%);
+$--filter-color-login-dark-shallow: rgb(35 35 36 / 30%);
+$--filter-color-login-light: rgb(240 240 240 / 70%);
+$--filter-color-login-light-shallow: rgb(240 240 240 / 30%);
+
+// 边框
+$--border-radius-base: 8px;
+
+// 阴影
+$--border-shadow: 0 8px 20px rgb(0 0 0 / 15%);
+
+// 色彩规范:
+
+// 主色
+$main-color-gold: #dbb003;
+$main-color-primary-transparent: rgb(2 162 147 / 20%);
+
+// #02d2bf
+$main-color-primary-light: var(--el-color-primary-light-2);
+$main-color-primary: var(--el-color-primary);
+$main-color-primary-dark: #002e2a;
+$main-color-gray: #8e8e8e;
+$main-color-gray-hover: #aeadad;
+
+// 辅色
+$complementary-color-primary: #4db6ac;
+$complementary-color-primary-light: #9efef4;
+
+// 文字色
+$font-color-primary: var(--el-color-primary);
+$font-color-primary-hover: var(--el-color-primary-light-2);
+$font-color-gold: #ffcd05; // 亮金色
+$font-color-gold-dark: #a28204;
+$font-color-gold-light: #eebe77; // 淡金色  背景为黑色
+$font-color-gray: rgb(163 163 163); // 灰色
+
+// 边框颜色
+$border-primary: $main-color-primary;
+$border-primary-light: #09ffeb;
+$border-primary-dark: $main-color-primary-dark;
+$border-gray: rgb(216 214 214);
+$border-gray-dark: rgb(109 109 109);
+
+// 面板颜色
+$cardBgc: linear-gradient(rgb(100 100 100) 30%, rgb(70 70 70), rgb(100 100 100) 30%);
+$cardButtonBgc: linear-gradient(rgb(120 120 120) 20%, rgb(150 150 150), rgb(120 120 120) 20%);
+$card-header-bgc: #403f3f;
+$card-body-bgc: linear-gradient(rgb(148 147 147) 20%, rgb(180 180 180), rgb(164 164 164) 20%);
+
+// 字体
+$special-font-family: YouSheBiaoTiHei;

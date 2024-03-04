@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "functionId": "01",
+      "functionName": "人脸识别摄像",
+      "functionDescr": "人脸识别校对，远程验证登录信息，根据目标距离自动变焦倍距",
+      "createTime": "2022-03-01",
+      "functionStatus": 1
+    },
+    {
+      "functionId": "02",
+      "functionName": "人体追踪摄像",
+      "functionDescr": "实时跟踪目标人体运动轨迹，270°广角范围内采集行为",
+      "createTime": "2022-03-02",
+      "functionStatus": 0
+    },
+    {
+      "functionId": "03",
+      "functionName": "圆形声源录音",
+      "functionDescr": "全向场景下录音，多焦点声源采集",
+      "createTime": "2022-03-02",
+      "functionStatus": 1
+    },
+    {
+      "functionId": "04",
+      "functionName": "心形及超心形录音",
+      "functionDescr": "单边拾音效果最佳，人声采集",
+      "createTime": "2022-03-02",
+      "functionStatus": 1
+    },
+    {
+      "functionId": "05",
+      "functionName": "强指向形录音",
+      "functionDescr": "指向性单边，且单拾音角度窄，可有效避免拾取周边不需要的声音",
+      "createTime": "2022-03-02",
+      "functionStatus": 1
+    },
+    {
+      "functionId": "06",
+      "functionName": "弧面柔性显示",
+      "functionDescr": "可大角度弯曲折叠，能够满足具有弧面、异型的场景。",
+      "createTime": "2022-03-02",
+      "functionStatus": 1
+    }
+  ]
+}

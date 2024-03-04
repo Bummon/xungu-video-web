@@ -1,0 +1,93 @@
+<template>
+  <div class="icon-item-box" v-show="!isGroup">
+    <!--    <n-icon-->
+    <!--      class="go-ml-1 icon-item"-->
+    <!--      :class="{ active: status.lock }"-->
+    <!--      size="15"-->
+    <!--      :component="status.lock ? LockClosedOutlineIcon : LockOpenOutlineIcon"-->
+    <!--      @click="lockHandle"-->
+    <!--    />-->
+    <n-icon
+      class="go-ml-1 icon-item"
+      :class="{ active: status.hide }"
+      size="15"
+      :component="status.hide ? EyeOffOutlineIcon : EyeOutlineIcon"
+      @click="showHandle"
+    />
+    <el-icon class="go-ml-1 icon-item" size="15" @click="deleteHandle">
+      <Delete></Delete>
+    </el-icon>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, PropType } from "vue";
+import { useDesignStore } from "@/stores/modules/designStore/designStore";
+import { StatusType } from "@/packages/index.d";
+import { useChartEditStore } from "@/stores/modules/chartEditStore/chartEditStore";
+import { icon } from "@/plugins";
+
+const props = defineProps({
+  isGroup: {
+    type: Boolean,
+    default: false
+  },
+  hover: {
+    type: Boolean,
+    default: false
+  },
+  status: {
+    type: Object as PropType<StatusType>,
+    default: () => ({
+      lock: false,
+      hide: false
+    })
+  }
+});
+
+const { LockClosedOutlineIcon, LockOpenOutlineIcon, EyeOutlineIcon, EyeOffOutlineIcon } = icon.ionicons5;
+const chartEditStore = useChartEditStore();
+const designStore = useDesignStore();
+
+// 颜色
+const themeColor = computed(() => {
+  return designStore.getAppTheme;
+});
+
+// 隐藏 / 展示
+const showHandle = (e: MouseEvent) => {
+  e.stopPropagation();
+  props.status.hide ? chartEditStore.setShow() : chartEditStore.setHide();
+};
+
+// 锁定 / 解锁
+const lockHandle = (e: MouseEvent) => {
+  e.stopPropagation();
+  props.status.lock ? chartEditStore.setUnLock() : chartEditStore.setLock();
+};
+// 删除
+const deleteHandle = (e: MouseEvent) => {
+  e.stopPropagation();
+  chartEditStore.removeComponentList();
+};
+</script>
+
+<style lang="scss" scoped>
+$active-color: v-bind("themeColor");
+.icon-item-box {
+  white-space: nowrap;
+  .icon-item {
+    padding-top: 5px;
+    opacity: 0;
+
+    @extend .go-transition;
+    &.active,
+    &:hover {
+      color: $active-color;
+    }
+    &.active {
+      opacity: 1 !important;
+    }
+  }
+}
+</style>
