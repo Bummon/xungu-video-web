@@ -16,9 +16,9 @@ export namespace sysMenu {
     remark?: string;
     createUserId?: number | bigint;
     createUsername?: string;
-    createTime?: number;
+    createTime?: string;
     modifyUserId?: number | bigint;
     modifyUsername?: string;
-    modifyTime?: number;
+    modifyTime?: string;
   }
 }

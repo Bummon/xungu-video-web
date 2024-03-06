@@ -8,9 +8,9 @@ export namespace sysRole {
     remark?: string; //备注
     createUserId?: bigint;
     createUsername?: string;
-    createTime?: number;
+    createTime?: string;
     modifyUserId?: bigint;
     modifyUsername?: string;
-    modifyTime?: number;
+    modifyTime?: string;
   }
 }

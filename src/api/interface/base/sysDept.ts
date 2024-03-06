@@ -8,13 +8,13 @@ export namespace sysDept {
     deptPhone: string;
     deptSort: number;
     enabled: number;
-    remark: string;
-    createUserId: bigint;
-    createUsername: string;
-    createTime: number;
-    modifyUserId: bigint;
-    modifyUsername: string;
-    modifyTime: number;
+    remark?: string;
+    createUserId?: bigint;
+    createUsername?: string;
+    createTime?: string;
+    modifyUserId?: bigint;
+    modifyUsername?: string;
+    modifyTime?: string;
   }
 
   export interface DeptTree {
