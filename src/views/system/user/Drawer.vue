@@ -80,7 +80,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="状态">
+          <el-form-item label="是否启用" prop="enabled">
             <el-switch
               v-model="drawerProps.row!.enabled"
               inline-prompt
@@ -111,7 +111,8 @@
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { sysRole } from "@/api/interface/system/sysRole";
-import { getRoleList, getDeptTree } from "@/api/modules/system/user";
+import { getRoleList } from "@/api/modules/system/user";
+import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
 import { sysDept } from "@/api/interface/system/sysDept";
 import { sysUser } from "@/api/interface/system/sysUser";

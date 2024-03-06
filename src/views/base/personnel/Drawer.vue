@@ -80,7 +80,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="状态">
+          <el-form-item label="是否启用" prop="enabled">
             <el-switch
               v-model="drawerProps.row!.enabled"
               inline-prompt
@@ -111,7 +111,8 @@
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { sysRole } from "@/api/interface/system/sysRole";
-import { getRoleList, getDeptTree } from "@/api/modules/system/user";
+import { getRoleList } from "@/api/modules/system/user";
+import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
 import { sysDept } from "@/api/interface/system/sysDept";
 import { sysUser } from "@/api/interface/system/sysUser";
@@ -196,9 +197,9 @@ let getDepts = ref<sysDept.DeptTree[]>();
 async function init(params) {
   try {
     // 获取角色列表
-    getRoles.value = (await getRoleList()).data;
+    getRoles.value = (await getRoleList({ enabled: 1 })).data;
     // 获取部门列表
-    getDepts.value = (await getDeptTree({})).data;
+    getDepts.value = (await getDeptTree({ enabled: 1 })).data;
     return true;
   } catch (e) {
     ElMessage.error("服务器接口发生异常，请稍后尝试");

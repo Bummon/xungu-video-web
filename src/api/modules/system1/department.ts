@@ -28,5 +28,5 @@ export const deleteRows = (params: { ids: string[] }) => {
 
 // 切换部门状态
 export const changeDeptStatus = (params: { deptId: string; deptStatus: number }) => {
-  return http.post(DEPARTMENT + `/changeDeptStatus`, params);
+  return http.post(DEPARTMENT + `/changeStatus`, params);
 };

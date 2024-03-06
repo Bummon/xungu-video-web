@@ -19,17 +19,35 @@ import I18n from "@/languages/index";
 import pinia from "@/stores";
 import errorHandler from "@/utils/errorHandler";
 import "vue3-sketch-ruler/lib/style.css";
-import { setupDirectives, setupCustomComponents, initFunction } from "@/plugins";
+import { setupCustomComponents, setupDirectives } from "@/plugins";
 // setupNaive,
 import naive from "naive-ui";
 import { GoAppProvider } from "@/components/GoAppProvider/index";
 import ProTable from "@/components/ProTable/index.vue";
 import XgCard from "@/components/xg-card/index.vue";
+import { useAuthStore } from "@/stores/modules/auth";
+import { storeToRefs } from "pinia";
 
 async function appInit() {
   const goAppProvider = createApp(GoAppProvider);
   const app = createApp(App);
   app.config.errorHandler = errorHandler;
+
+  // 自定义v-has指令
+  app.directive("has", {
+    mounted(el, binding) {
+      function permsJudge(permsCode) {
+        const authStore = useAuthStore();
+        const { authButtonList } = storeToRefs(authStore);
+        const buttons: string[] = Object.values(authButtonList.value).flat();
+        return buttons.includes(permsCode);
+      }
+
+      if (!permsJudge(binding.value)) {
+        el.parentNode.removeChild(el);
+      }
+    }
+  });
 
   // 注册全局常用的 naive-ui 组件 选装式
   // setupNaive(app);

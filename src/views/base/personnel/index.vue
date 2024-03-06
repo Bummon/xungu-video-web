@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="用户列表"
+      title="人员列表"
       rowKey="userId"
       :columns="columns"
       :request-api="getTableList"
@@ -11,9 +11,11 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增</el-button>
+        <el-button v-has="'base:personnel:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
         <!--        -->
-        <el-button type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)"> 批量删除</el-button>
+        <el-button v-has="'base:personnel:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+          批量删除
+        </el-button>
       </template>
       <!-- 扩展 -->
       <template #expand="scope">
@@ -23,6 +25,7 @@
       <template #enabled="scope">
         <el-switch
           v-model="scope.row.enabled"
+          :disabled="scope.row.defaultType === 1 || !AuthUtils.hasPermission('base:personnel:')"
           inline-prompt
           active-text="启用"
           :active-value="1"
@@ -33,10 +36,39 @@
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
-        <el-button type="primary" link icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
-        <el-button type="primary" link icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-        <el-button type="primary" link icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
-        <el-button type="primary" link icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+        <el-button v-has="'base:personnel:query'" type="primary" link icon="View" @click="openDrawer('查看', scope.row)"
+          >查看
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'base:personnel:edit'"
+          type="primary"
+          link
+          icon="EditPen"
+          @click="openDrawer('编辑', scope.row)"
+          >编辑
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'base:personnel:resetPwd'"
+          type="primary"
+          link
+          icon="Refresh"
+          @click="resetPass(scope.row)"
+        >
+          重置密码
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'base:personnel:remove'"
+          type="primary"
+          link
+          icon="Delete"
+          @click="deleteAccount(scope.row)"
+        >
+          删除
+        </el-button>
+        <p v-if="scope.row.defaultType === 1" style="font-style: italic; color: #9f9e9e">系统默认，不可修改</p>
       </template>
     </ProTable>
     <Drawer ref="drawerRef" />
@@ -55,6 +87,7 @@ import { addUser, changeUserStatus, deleteUser, getUserPage, resetPassword, upda
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
 import { UserDeptHandle } from "@/views/system/user/index";
 import { sysUser } from "@/api/interface/system/sysUser";
+import { AuthUtils } from "@/utils/auth";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
@@ -133,20 +166,20 @@ const columns: ColumnProps<User.ResUserList>[] = [
 ];
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-  await useHandleData(deleteUser, { ids: [params.userId] }, `删除【${params.nickname}】用户`);
+  await useHandleData(deleteUser, [params.userId], `删除人员【${params.nickname}】`);
   proTable.value?.getTableList();
 };
 
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-  await useHandleData(deleteUser, { ids: id }, "删除所选用户信息");
+const batchDelete = async (ids: number[] | bigint[]) => {
+  await useHandleData(deleteUser, ids, "删除所选人员信息");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
 
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
-  await useHandleData(resetPassword, { id: params.userId }, `重置【${params.nickname}】用户密码`);
+  await useHandleData(resetPassword, params.userId, `重置【${params.nickname}】人员密码`);
   proTable.value?.getTableList();
 };
 
@@ -160,7 +193,7 @@ const changeStatus = async (row: User.ResUserList) => {
       enabled: enabled,
       type: 1
     },
-    `切换【${row.nickname}】用户状态`
+    `切换【${row.nickname}】人员状态`
   );
   proTable.value?.getTableList();
 };

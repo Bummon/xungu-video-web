@@ -157,8 +157,8 @@
 import { onMounted, ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { BasePlay } from "@/api/interface/release/playList";
-import { getDepartmentTree } from "@/api/modules/system1/department";
-import { getOrganization } from "@/api/modules/system1/organization";
+import { getDepartmentTree } from "@/api/modules/system/department";
+import { getOrganization } from "@/api/modules/system/organization";
 import { getAllList } from "@/api/modules/player/baseLibrary";
 import { getDetailById } from "@/api/modules/release/playList";
 

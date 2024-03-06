@@ -11,9 +11,11 @@
     >
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增</el-button>
+        <el-button v-has="'system:user:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
         <!--        -->
-        <el-button type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)"> 批量删除</el-button>
+        <el-button v-has="'system:user:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+          批量删除
+        </el-button>
       </template>
       <!-- 扩展 -->
       <template #expand="scope">
@@ -23,6 +25,7 @@
       <template #enabled="scope">
         <el-switch
           v-model="scope.row.enabled"
+          :disabled="scope.row.defaultType === 1 || !AuthUtils.hasPermission('system:user:edit')"
           inline-prompt
           active-text="启用"
           :active-value="1"
@@ -33,10 +36,39 @@
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
-        <el-button type="primary" link icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
-        <el-button type="primary" link icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-        <el-button type="primary" link icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
-        <el-button type="primary" link icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+        <el-button v-has="'system:user:query'" type="primary" link icon="View" @click="openDrawer('查看', scope.row)"
+          >查看
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'system:user:edit'"
+          type="primary"
+          link
+          icon="EditPen"
+          @click="openDrawer('编辑', scope.row)"
+          >编辑
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'system:user:resetPwd'"
+          type="primary"
+          link
+          icon="Refresh"
+          @click="resetPass(scope.row)"
+        >
+          重置密码
+        </el-button>
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'system:user:remove'"
+          type="primary"
+          link
+          icon="Delete"
+          @click="deleteAccount(scope.row)"
+        >
+          删除
+        </el-button>
+        <p v-if="scope.row.defaultType === 1" style="font-style: italic; color: #9f9e9e">系统默认，不可修改</p>
       </template>
     </ProTable>
     <Drawer ref="drawerRef" />
@@ -55,6 +87,7 @@ import { addUser, changeUserStatus, deleteUser, getUserPage, resetPassword, upda
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
 import { UserDeptHandle } from "@/views/system/user/index";
 import { sysUser } from "@/api/interface/system/sysUser";
+import { AuthUtils } from "@/utils/auth";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
@@ -116,7 +149,6 @@ const columns: ColumnProps<User.ResUserList>[] = [
   { prop: "phone", label: "手机", align: "left", width: TableWidthEnum.BigIntNum },
   { prop: "roleName", label: "角色", align: "left", width: TableWidthEnum.PersonName },
   { prop: "enabled", label: TableLabelEnum.Status, align: "center", width: TableWidthEnum.Status },
-
   {
     prop: "createTime",
     label: "创建时间",
@@ -133,20 +165,20 @@ const columns: ColumnProps<User.ResUserList>[] = [
 ];
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-  await useHandleData(deleteUser, { ids: [params.userId] }, `删除【${params.nickname}】用户`);
+  await useHandleData(deleteUser, [params.userId], `删除【${params.nickname}】用户`);
   proTable.value?.getTableList();
 };
 
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-  await useHandleData(deleteUser, { ids: id }, "删除所选用户信息");
+const batchDelete = async (ids: number[] | bigint[]) => {
+  await useHandleData(deleteUser, ids, "删除所选用户信息");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
 
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
-  await useHandleData(resetPassword, { id: params.userId }, `重置【${params.nickname}】用户密码`);
+  await useHandleData(resetPassword, params.userId, `重置【${params.nickname}】用户密码`);
   proTable.value?.getTableList();
 };
 
@@ -164,18 +196,6 @@ const changeStatus = async (row: User.ResUserList) => {
   );
   proTable.value?.getTableList();
 };
-
-// 批量添加用户
-//const dialogRef = ref<InstanceType<typeof ImportExcel> | null>(null);
-//const batchAdd = () => {
-//  const params = {
-//    title: "用户",
-//    tempApi: importTemplate,
-//    importApi: BatchAddUser,
-//    getTableList: proTable.value?.getTableList
-//  };
-//  dialogRef.value?.acceptParams(params);
-//};
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof Drawer> | null>(null);

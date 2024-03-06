@@ -1,5 +1,5 @@
 import { DataType } from "@/api/modules/data";
-import { getDeptList } from "@/api/modules/system/dept";
+import { getDeptList } from "@/api/modules/base/dept";
 import { sysDept } from "@/api/interface/system/sysDept";
 
 export class UserDeptHandle {
@@ -8,9 +8,9 @@ export class UserDeptHandle {
       try {
         let data: DataType.Cascade[] | [] = [];
         // 父部门
-        let parentList = (await getDeptList({ parentId: 0 })).data;
+        let parentList = (await getDeptList({ parentId: 0, enabled: 1 })).data;
         // 子部门
-        let childList = (await getDeptList({ parentId: 1 })).data;
+        let childList = (await getDeptList({ parentId: 1, enabled: 1 })).data;
 
         parentList.forEach(parentDept => {
           let tmp: DataType.Cascade = {

@@ -1,5 +1,5 @@
 export namespace sysRole {
-  export interface SysRole {
+  export interface Role {
     roleId: bigint; //角色ID
     roleCode?: string; //角色编码
     roleName: string; //角色名称

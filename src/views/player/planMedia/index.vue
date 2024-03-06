@@ -44,17 +44,20 @@
 </template>
 
 <script setup lang="ts" name="RoomManage">
-import { reactive, ref } from "vue";
-import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import type { Action } from "element-plus";
+import { ref, reactive } from "vue";
+import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { addRow, auditRow, deleteRows, getListByPage, updateRow } from "@/api/modules/release/playList";
+import { addRow, updateRow, getListByPage, deleteRows, auditRow } from "@/api/modules/release/playList";
 import ProTable from "@/components/ProTable/index.vue";
 import Drawer from "./Drawer.vue";
 import { BaseRoom } from "@/api/interface/player/baseRoom";
 import { useHandleData } from "@/hooks/useHandleData";
+import type { Action } from "element-plus";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
+import { BaseTerminal } from "@/api/interface/player/baseTerminal";
 import { PlanMedia } from "@/api/interface/player/playerPlanMedia";
+import { reqAppParams } from "@/api/modules/system/appParam";
+import { ReqPage } from "@/api/interface";
 
 const proTable = ref<ProTableInstance>();
 
