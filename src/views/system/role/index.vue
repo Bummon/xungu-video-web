@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="角色列表"
+      title="角色管理"
       row-key="path"
       :indent="30"
       :columns="columns"

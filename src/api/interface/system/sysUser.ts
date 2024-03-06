@@ -13,6 +13,7 @@ export namespace sysUser {
     type: number;
     enabled: number;
     sort: number;
+    defaultType: number;
     remark?: string;
     createUserId?: bigint;
     createUsername?: string;

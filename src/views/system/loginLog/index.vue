@@ -2,8 +2,8 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="用户列表"
-      rowKey="userId"
+      title="登录日志"
+      rowKey="logId"
       :columns="columns"
       :request-api="getTableList"
       :init-param="initParam"
@@ -38,12 +38,10 @@
 
 <script setup lang="tsx" name="useProTable">
 import { reactive, ref } from "vue";
-import { User } from "@/api/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { sysUser } from "@/api/interface/system/sysUser";
 import { sysLoginLog } from "@/api/interface/system/sysLoginLog";
 import { deleteLoginLog, getLoginLogPage } from "@/api/modules/system/loginLog";
 
@@ -61,12 +59,12 @@ const dataCallback = (data: any) => {
   };
 };
 
-const getTableList = (params: sysUser.User) => {
+const getTableList = (params: sysLoginLog.LoginLog) => {
   let newParams = JSON.parse(JSON.stringify(params));
   return getLoginLogPage(newParams);
 };
 // 表格配置项
-const columns: ColumnProps<User.ResUserList>[] = [
+const columns: ColumnProps<sysLoginLog.LoginLog>[] = [
   { type: "selection", fixed: "left", width: TableWidthEnum.Select },
   { type: "index", label: TableLabelEnum.Index, width: 50 },
   {
@@ -74,13 +72,11 @@ const columns: ColumnProps<User.ResUserList>[] = [
     label: "用户名",
     search: { el: "input" },
     align: "left"
-    //width: TableWidthEnum.PersonName
   },
   {
     prop: "ip",
     label: "IP",
     align: "left"
-    //width: TableWidthEnum.PersonName
   },
   {
     prop: "responseMsg",
@@ -92,25 +88,23 @@ const columns: ColumnProps<User.ResUserList>[] = [
     prop: "isSuccess",
     label: "请求状态",
     align: "left"
-    //width: TableWidthEnum.PersonName
   },
   {
     prop: "loginTime",
     label: "登录时间",
     align: "left"
-    //width: TableWidthEnum.LongTime
   },
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];
 // 删除用户信息
 const deleteAccount = async (params: sysLoginLog.LoginLog) => {
-  await useHandleData(deleteLoginLog, [params.logId], `删除用户【${params.loginUsername}】的登录信息`);
+  await useHandleData(deleteLoginLog, [params.logId], `删除用户【${params.loginUsername}】的登录日志`);
   proTable.value?.getTableList();
 };
 
 // 批量删除用户信息
 const batchDelete = async (ids: number[] | bigint[]) => {
-  await useHandleData(deleteLoginLog, ids, "删除所选用户信息");
+  await useHandleData(deleteLoginLog, ids, "删除所选用户登录日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };

@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="用户列表"
+      title="用户管理"
       rowKey="userId"
       :columns="columns"
       :request-api="getTableList"
@@ -36,7 +36,13 @@
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
-        <el-button v-has="'system:user:query'" type="primary" link icon="View" @click="openDrawer('查看', scope.row)"
+        <el-button
+          v-if="scope.row.defaultType === 0"
+          v-has="'system:user:query'"
+          type="primary"
+          link
+          icon="View"
+          @click="openDrawer('查看', scope.row)"
           >查看
         </el-button>
         <el-button

@@ -2,7 +2,7 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="人员列表"
+      title="人员管理"
       rowKey="userId"
       :columns="columns"
       :request-api="getTableList"
@@ -147,7 +147,6 @@ const columns: ColumnProps<User.ResUserList>[] = [
     }
   },
   { prop: "phone", label: "手机", align: "left", width: TableWidthEnum.BigIntNum },
-  { prop: "roleName", label: "角色", align: "left", width: TableWidthEnum.PersonName },
   { prop: "enabled", label: TableLabelEnum.Status, align: "center", width: TableWidthEnum.Status },
 
   {

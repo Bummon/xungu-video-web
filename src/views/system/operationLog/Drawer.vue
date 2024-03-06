@@ -5,7 +5,7 @@
     :close-on-press-escape="false"
     :destroy-on-close="true"
     :show-close="false"
-    width="40%"
+    width="50%"
     draggable
   >
     <template #header>
@@ -25,77 +25,108 @@
       :model="drawerProps.row"
       :hide-required-asterisk="drawerProps.isView"
     >
-      <el-row v-if="drawerProps.row.defaultType !== 1">
+      <el-row>
         <el-col :span="12">
-          <el-form-item label="用户名" prop="userAccount">
-            <el-input v-model="drawerProps.row!.userAccount" placeholder="请填写用户名" clearable></el-input>
+          <el-form-item label="模块" prop="moduleName">
+            <el-tag effect="dark" type="info">{{ drawerProps.row.moduleName }}</el-tag>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="姓名" prop="nickname">
-            <el-input v-model="drawerProps.row!.nickname" placeholder="请填写姓名" clearable></el-input>
+          <el-form-item label="名称" prop="operationName">
+            <el-tag effect="dark" type="danger">{{ drawerProps.row.operationName }}</el-tag>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="手机" prop="phone">
-            <el-input v-model="drawerProps.row!.phone" placeholder="请填写手机" clearable maxlength="11"></el-input>
+          <el-form-item label="用户" prop="createUsername">
+            <el-tag effect="light" type="warning">{{ drawerProps.row.createUsername }}</el-tag>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="drawerProps.row!.email" placeholder="请填写邮箱" clearable></el-input>
+          <el-form-item label="类型" prop="type">
+            <el-tag v-if="drawerProps.row.type === 1" type="success">新增</el-tag>
+            <el-tag v-else-if="drawerProps.row.type === 2" type="warning">修改</el-tag>
+            <el-tag v-else-if="drawerProps.row.type === 3" type="danger">删除</el-tag>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="部门" prop="deptId">
-            <el-tree-select
-              v-model="drawerProps.row!.deptId"
-              :data="getDepts"
-              :props="props"
-              check-strictly
-              :render-after-expand="false"
-              style="width: 100%"
-              placeholder="请选择部门"
-            />
+          <el-form-item label="请求类型" prop="requestType">
+            <el-tag type="warning">{{ drawerProps.row.requestType }}</el-tag>
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="drawerProps.row.defaultType !== 1">
-          <el-form-item label="角色" prop="roleId">
-            <el-select v-model="drawerProps.row!.roleId" placeholder="请选择角色" style="width: 100%">
-              <el-option v-for="item in getRoles" :key="item.roleId" :label="item.roleName" :value="item.roleId" />
-            </el-select>
+        <el-col :span="12">
+          <el-form-item label="请求结果" prop="isSuccess">
+            <el-tag v-if="drawerProps.row.isSuccess" type="success">成功</el-tag>
+            <el-tag v-else type="danger">失败</el-tag>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="性别" prop="gender">
-            <el-select v-model="drawerProps.row!.gender" placeholder="请选择性别" style="width: 100%">
-              <el-option v-for="item in genderOptions" :key="item.key" :label="item.label" :value="item.key" />
-            </el-select>
+          <el-form-item label="请求IP" prop="ip">
+            {{ drawerProps.row.ip }}
           </el-form-item>
         </el-col>
-        <el-col :span="12" v-if="drawerProps.row.defaultType !== 1">
-          <el-form-item label="是否启用" prop="enabled">
-            <el-switch
-              v-model="drawerProps.row!.enabled"
-              inline-prompt
-              active-text="启用"
-              :active-value="1"
-              inactive-text="禁用"
-              :inactive-value="0"
-            />
+        <el-col :span="12">
+          <el-form-item label="请求URI" prop="requestUri">
+            {{ drawerProps.row.requestUri }}
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="drawerProps.title === '新增'">
+      <el-row>
         <el-col :span="12">
-          <el-form-item label="初始密码">
-            <el-input placeholder="123456" :disabled="true"></el-input>
+          <el-form-item label="请求类名" prop="methodName">
+            {{ drawerProps.row.methodName }}
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="请求时间" prop="createTime">
+            {{ drawerProps.row.createTime }}
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="请求参数" prop="requestJson">
+            <JsonViewer
+              :style="{ overflow: 'auto' }"
+              :copyable="{
+                copyText: '复制',
+                copiedText: '已复制'
+              }"
+              :boxed="false"
+              :sort="true"
+              :expanded="true"
+              :show-array-index="false"
+              :show-double-quotes="true"
+              expand-depth="20"
+              :value="JSON.parse(drawerProps.row.requestJson)"
+            ></JsonViewer>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="响应参数" prop="responseJson">
+            <JsonViewer
+              :style="{
+                mainHeight: 50,
+                maxHeight: 100,
+                overflow: 'auto'
+              }"
+              :copyable="{
+                copyText: '复制',
+                copiedText: '已复制'
+              }"
+              :boxed="false"
+              :sort="true"
+              :expanded="false"
+              :show-array-index="true"
+              :show-double-quotes="true"
+              expand-depth="20"
+              :value="JSON.parse(drawerProps.row.responseJson)"
+            ></JsonViewer>
           </el-form-item>
         </el-col>
       </el-row>
@@ -108,14 +139,16 @@
 </template>
 
 <script setup lang="ts" name="Drawer">
-import { ref, reactive } from "vue";
+import { reactive, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { sysRole } from "@/api/interface/system/sysRole";
 import { getRoleList } from "@/api/modules/system/user";
 import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
 import { sysDept } from "@/api/interface/system/sysDept";
-import { sysUser } from "@/api/interface/system/sysUser";
+import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
+import JsonViewer from "vue-json-viewer";
+import "vue-json-viewer/style.css";
 
 const appStore = useAppStore();
 const rules = reactive({
@@ -146,7 +179,7 @@ const props = {
 interface DrawerProps {
   title: string;
   isView: boolean;
-  row: Partial<sysUser.User>;
+  row: Partial<sysOperationLog.OperationLog>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

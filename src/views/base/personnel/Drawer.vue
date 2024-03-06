@@ -64,21 +64,21 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="角色" prop="roleId">
-            <el-select v-model="drawerProps.row!.roleId" placeholder="请选择角色" style="width: 100%">
-              <el-option v-for="item in getRoles" :key="item.roleId" :label="item.roleName" :value="item.roleId" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
           <el-form-item label="性别" prop="gender">
             <el-select v-model="drawerProps.row!.gender" placeholder="请选择性别" style="width: 100%">
               <el-option v-for="item in genderOptions" :key="item.key" :label="item.label" :value="item.key" />
             </el-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row v-if="drawerProps.title === '新增'">
+        <el-col :span="12">
+          <el-form-item label="初始密码">
+            <el-input placeholder="123456" :disabled="true"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="12">
           <el-form-item label="是否启用" prop="enabled">
             <el-switch
@@ -89,13 +89,6 @@
               inactive-text="禁用"
               :inactive-value="0"
             />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row v-if="drawerProps.title === '新增'">
-        <el-col :span="12">
-          <el-form-item label="初始密码">
-            <el-input placeholder="123456" :disabled="true"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -110,8 +103,6 @@
 <script setup lang="ts" name="Drawer">
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-import { sysRole } from "@/api/interface/system/sysRole";
-import { getRoleList } from "@/api/modules/system/user";
 import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
 import { sysDept } from "@/api/interface/system/sysDept";
@@ -132,7 +123,6 @@ const rules = reactive({
   ],
   gender: [{ required: true, message: "请选择性别" }],
   deptId: [{ required: true, message: "请选择部门", trigger: "change" }],
-  roleId: [{ required: true, message: "请选择角色", trigger: "change" }],
   email: [{ required: true, type: "email", message: "请输入正确的邮箱地址", trigger: "blur" }, { trigger: "blur" }],
   enabled: [{ required: true, message: "请选择状态" }]
 });
@@ -181,7 +171,6 @@ const acceptParams = async (params: DrawerProps) => {
     drawerVisible.value = true;
   }
 };
-let getRoles = ref<sysRole.SysRole[]>();
 let getDepts = ref<sysDept.DeptTree[]>();
 
 /*
@@ -196,8 +185,6 @@ let getDepts = ref<sysDept.DeptTree[]>();
  * */
 async function init(params) {
   try {
-    // 获取角色列表
-    getRoles.value = (await getRoleList({ enabled: 1 })).data;
     // 获取部门列表
     getDepts.value = (await getDeptTree({ enabled: 1 })).data;
     return true;

@@ -5,6 +5,7 @@ export const ROLE = "/system/role";
 export const DEPARTMENT = "/system/dept";
 export const DEPARTMENTS = "/system/common";
 export const LOGIN_LOG = "/system/log/login";
+export const OPERATION_LOG = "/system/log/operation";
 
 export const APP = "/system/sysApp/";
 export const DICT = "/system/sysDict";
