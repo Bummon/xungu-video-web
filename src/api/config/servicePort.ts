@@ -4,8 +4,12 @@ export const MENU = "/system/menu";
 export const ROLE = "/system/role";
 export const DEPARTMENT = "/system/dept";
 export const DEPARTMENTS = "/system/common";
-export const LOGIN_LOG = "/system/log/login";
-export const OPERATION_LOG = "/system/log/operation";
+export const LOGIN_LOG = "/system/loginLog";
+export const OPERATION_LOG = "/system/operationLog";
+export const AI_CONFIG = "/system/aiConfig";
+export const SYS_CONFIG = "/system/config";
+export const SINGLE_UPLOAD = "/common/upload";
+export const MULTI_UPLOAD = "/common/uploads";
 
 export const APP = "/system/sysApp/";
 export const DICT = "/system/sysDict";

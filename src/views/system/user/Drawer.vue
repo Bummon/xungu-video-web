@@ -176,7 +176,7 @@ const acceptParams = async (params: DrawerProps) => {
     drawerVisible.value = true;
   }
 };
-let getRoles = ref<sysRole.SysRole[]>();
+let getRoles = ref<sysRole.Role[]>();
 let getDepts = ref<sysDept.DeptTree[]>();
 
 /*

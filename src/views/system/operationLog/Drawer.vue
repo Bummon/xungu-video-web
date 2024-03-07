@@ -16,121 +16,69 @@
       </span>
       <span style="vertical-align: middle"> {{ drawerProps.title }} </span>
     </template>
-    <el-form
-      ref="ruleFormRef"
-      label-width="100px"
-      label-suffix=" :"
-      :rules="rules"
-      :disabled="drawerProps.isView"
-      :model="drawerProps.row"
-      :hide-required-asterisk="drawerProps.isView"
-    >
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="模块" prop="moduleName">
-            <el-tag effect="dark" type="info">{{ drawerProps.row.moduleName }}</el-tag>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="名称" prop="operationName">
-            <el-tag effect="dark" type="danger">{{ drawerProps.row.operationName }}</el-tag>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="用户" prop="createUsername">
-            <el-tag effect="light" type="warning">{{ drawerProps.row.createUsername }}</el-tag>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="类型" prop="type">
-            <el-tag v-if="drawerProps.row.type === 1" type="success">新增</el-tag>
-            <el-tag v-else-if="drawerProps.row.type === 2" type="warning">修改</el-tag>
-            <el-tag v-else-if="drawerProps.row.type === 3" type="danger">删除</el-tag>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="请求类型" prop="requestType">
-            <el-tag type="warning">{{ drawerProps.row.requestType }}</el-tag>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="请求结果" prop="isSuccess">
-            <el-tag v-if="drawerProps.row.isSuccess" type="success">成功</el-tag>
-            <el-tag v-else type="danger">失败</el-tag>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="请求IP" prop="ip">
-            {{ drawerProps.row.ip }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="请求URI" prop="requestUri">
-            {{ drawerProps.row.requestUri }}
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="请求类名" prop="methodName">
-            {{ drawerProps.row.methodName }}
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="请求时间" prop="createTime">
-            {{ drawerProps.row.createTime }}
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="请求参数" prop="requestJson">
-            <JsonViewer
-              :style="{ overflow: 'auto' }"
-              :copyable="{
-                copyText: '复制',
-                copiedText: '已复制'
-              }"
-              :boxed="false"
-              :sort="true"
-              :expanded="true"
-              :show-array-index="false"
-              :show-double-quotes="true"
-              expand-depth="20"
-              :value="JSON.parse(drawerProps.row.requestJson)"
-            ></JsonViewer>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="响应参数" prop="responseJson">
-            <JsonViewer
-              :style="{
-                mainHeight: 50,
-                maxHeight: 100,
-                overflow: 'auto'
-              }"
-              :copyable="{
-                copyText: '复制',
-                copiedText: '已复制'
-              }"
-              :boxed="false"
-              :sort="true"
-              :expanded="false"
-              :show-array-index="true"
-              :show-double-quotes="true"
-              expand-depth="20"
-              :value="JSON.parse(drawerProps.row.responseJson)"
-            ></JsonViewer>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
+    <el-descriptions title="操作日志详情" column="2" size="default" direction="horizontal">
+      <el-descriptions-item label="模块">
+        <el-tag effect="dark" type="info">{{ drawerProps.row.moduleName }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="名称">
+        <el-tag effect="dark" type="danger">{{ drawerProps.row.operationName }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="用户">
+        <el-tag effect="light" type="warning">{{ drawerProps.row.createUsername }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="类型">
+        <el-tag v-if="drawerProps.row.type === 1" type="success">新增</el-tag>
+        <el-tag v-else-if="drawerProps.row.type === 2" type="warning">修改</el-tag>
+        <el-tag v-else-if="drawerProps.row.type === 3" type="danger">删除</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="请求类型">
+        <el-tag type="warning">{{ drawerProps.row.requestType }}</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="请求结果">
+        <el-tag v-if="drawerProps.row.isSuccess" type="success">成功</el-tag>
+        <el-tag v-else type="danger">失败</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="请求IP">{{ drawerProps.row.requestUri }}</el-descriptions-item>
+      <el-descriptions-item label="请求URI">{{ drawerProps.row.requestUri }}</el-descriptions-item>
+      <el-descriptions-item label="请求方法名">{{ drawerProps.row.methodName }}</el-descriptions-item>
+      <el-descriptions-item label="请求时间">{{ drawerProps.row.createTime }}</el-descriptions-item>
+      <el-descriptions-item label="请求参数">
+        <JsonViewer
+          :style="{ overflow: 'auto' }"
+          :copyable="{
+            copyText: '复制',
+            copiedText: '已复制'
+          }"
+          :boxed="false"
+          :sort="true"
+          :expanded="true"
+          :show-array-index="false"
+          :show-double-quotes="true"
+          expand-depth="20"
+          :value="JSON.parse(drawerProps.row.requestJson)"
+        ></JsonViewer>
+      </el-descriptions-item>
+      <el-descriptions-item label="响应参数">
+        <JsonViewer
+          :style="{
+            mainHeight: 50,
+            maxHeight: 100,
+            overflow: 'auto'
+          }"
+          :copyable="{
+            copyText: '复制',
+            copiedText: '已复制'
+          }"
+          :boxed="false"
+          :sort="true"
+          :expanded="false"
+          :show-array-index="true"
+          :show-double-quotes="true"
+          expand-depth="20"
+          :value="JSON.parse(drawerProps.row.responseJson)"
+        ></JsonViewer>
+      </el-descriptions-item>
+    </el-descriptions>
     <template #footer>
       <el-button @click="drawerVisible = false">取消</el-button>
       <el-button type="primary" v-show="!drawerProps.isView" @click="handleSubmit">确定</el-button>
@@ -147,8 +95,8 @@ import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
 import { sysDept } from "@/api/interface/system/sysDept";
 import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
-import JsonViewer from "vue-json-viewer";
 import "vue-json-viewer/style.css";
+import JsonViewer from "vue-json-viewer";
 
 const appStore = useAppStore();
 const rules = reactive({

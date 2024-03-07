@@ -64,3 +64,8 @@ export interface AuthState {
 export interface KeepAliveState {
   keepAliveName: string[];
 }
+
+export interface LogoState {
+  systemName: string;
+  systemLogo: string;
+}
