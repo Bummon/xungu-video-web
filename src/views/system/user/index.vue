@@ -91,7 +91,7 @@ import Drawer from "./Drawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { addUser, changeUserStatus, deleteUser, getUserPage, resetPassword, updateUser } from "@/api/modules/system/user";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { UserDeptHandle } from "@/views/system/user/index";
+import { UserDeptHandle } from "@/views/system/user/userIndex";
 import { sysUser } from "@/api/interface/system/sysUser";
 import { AuthUtils } from "@/utils/auth";
 

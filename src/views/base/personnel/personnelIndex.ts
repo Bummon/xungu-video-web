@@ -1,6 +1,6 @@
 import { DataType } from "@/api/modules/data";
 import { getDeptList } from "@/api/modules/base/dept";
-import { sysDept } from "@/api/interface/system/sysDept";
+import { sysDept } from "@/api/interface/base/sysDept";
 
 export class UserDeptHandle {
   static getDeptList(): Promise<[] | DataType.Cascade[]> {

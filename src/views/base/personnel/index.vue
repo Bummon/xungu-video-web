@@ -12,10 +12,10 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <el-button v-has="'base:personnel:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
-        <!--        -->
         <el-button v-has="'base:personnel:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
           批量删除
         </el-button>
+        <el-button v-has="'base:personnel:export'" type="primary" icon="List" plain @click="exportData"> 导出 </el-button>
       </template>
       <!-- 扩展 -->
       <template #expand="scope">
@@ -25,7 +25,7 @@
       <template #enabled="scope">
         <el-switch
           v-model="scope.row.enabled"
-          :disabled="scope.row.defaultType === 1 || !AuthUtils.hasPermission('base:personnel:')"
+          :disabled="scope.row.defaultType === 1 || !AuthUtils.hasPermission('base:personnel:edit')"
           inline-prompt
           active-text="启用"
           :active-value="1"
@@ -83,11 +83,21 @@ import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";
 import Drawer from "./Drawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
-import { addUser, changeUserStatus, deleteUser, getUserPage, resetPassword, updateUser } from "@/api/modules/system/user";
+import {
+  addUser,
+  changeUserStatus,
+  deleteUser,
+  exportUserData,
+  getUserPage,
+  resetPassword,
+  updateUser
+} from "@/api/modules/system/user";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { UserDeptHandle } from "@/views/system/user/index";
+import { UserDeptHandle } from "@/views/base/personnel/personnelIndex";
 import { sysUser } from "@/api/interface/system/sysUser";
 import { AuthUtils } from "@/utils/auth";
+import { ElMessageBox } from "element-plus";
+import { useDownload } from "@/hooks/useDownload";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
@@ -147,19 +157,12 @@ const columns: ColumnProps<User.ResUserList>[] = [
     }
   },
   { prop: "phone", label: "手机", align: "left", width: TableWidthEnum.BigIntNum },
+  { prop: "email", label: "邮箱", align: "left", width: TableWidthEnum.Email },
   { prop: "enabled", label: TableLabelEnum.Status, align: "center", width: TableWidthEnum.Status },
-
-  {
-    prop: "createTime",
-    label: "创建时间",
-    align: "left",
-    width: TableWidthEnum.LongTime
-  },
   {
     prop: "modifyTime",
-    label: "修改时间",
-    align: "left",
-    width: TableWidthEnum.LongTime
+    label: "最后修改时间",
+    align: "left"
   },
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];
@@ -197,17 +200,12 @@ const changeStatus = async (row: User.ResUserList) => {
   proTable.value?.getTableList();
 };
 
-// 批量添加用户
-//const dialogRef = ref<InstanceType<typeof ImportExcel> | null>(null);
-//const batchAdd = () => {
-//  const params = {
-//    title: "用户",
-//    tempApi: importTemplate,
-//    importApi: BatchAddUser,
-//    getTableList: proTable.value?.getTableList
-//  };
-//  dialogRef.value?.acceptParams(params);
-//};
+// 导出数据
+const exportData = async () => {
+  ElMessageBox.confirm("确认导出人员列表?", "温馨提示", { type: "warning" }).then(() =>
+    useDownload(exportUserData, "人员列表", { type: 2 })
+  );
+};
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof Drawer> | null>(null);

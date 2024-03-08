@@ -5,7 +5,7 @@
     :close-on-press-escape="false"
     :destroy-on-close="true"
     :show-close="false"
-    width="50%"
+    width="60%"
     draggable
   >
     <template #header>
@@ -40,11 +40,14 @@
       </el-descriptions-item>
       <el-descriptions-item label="请求IP">{{ drawerProps.row.requestUri }}</el-descriptions-item>
       <el-descriptions-item label="请求URI">{{ drawerProps.row.requestUri }}</el-descriptions-item>
-      <el-descriptions-item label="请求方法名">{{ drawerProps.row.methodName }}</el-descriptions-item>
+      <el-descriptions-item label="请求类名">{{ drawerProps.row.methodName }}</el-descriptions-item>
       <el-descriptions-item label="请求时间">{{ drawerProps.row.createTime }}</el-descriptions-item>
       <el-descriptions-item label="请求参数">
         <JsonViewer
-          :style="{ overflow: 'auto' }"
+          :style="{
+            mainHeight: 100,
+            overflow: 'auto'
+          }"
           :copyable="{
             copyText: '复制',
             copiedText: '已复制'
@@ -61,8 +64,7 @@
       <el-descriptions-item label="响应参数">
         <JsonViewer
           :style="{
-            mainHeight: 50,
-            maxHeight: 100,
+            mainHeight: 100,
             overflow: 'auto'
           }"
           :copyable="{
