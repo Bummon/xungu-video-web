@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/serviceLoading";
 import { LOGIN_URL } from "@/config";
-import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 // import { ResPage } from "@/api/interface";
 import { ResultData } from "@/api/interface";
 import { ResultEnum } from "@/enums/httpEnum";
@@ -69,14 +69,7 @@ class RequestHttp {
         }
         // 无权限
         if (data.code == ResultEnum.SERVER_FORBIDDEN) {
-          ElMessageBox.confirm("您还未登录或登录已过期，您可以留在此页面或重新登录", "警告", {
-            confirmButtonText: "重新登录",
-            cancelButtonText: "留在本页面",
-            type: "warning"
-          });
           ElMessage.error(data.msg);
-          userStore.setToken("");
-          router.replace(LOGIN_URL);
           return Promise.reject(data);
         }
         // 处理 500

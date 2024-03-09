@@ -91,11 +91,7 @@
 <script setup lang="ts" name="Drawer">
 import { reactive, ref } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-import { sysRole } from "@/api/interface/system/sysRole";
-import { getRoleList } from "@/api/modules/system/user";
-import { getDeptTree } from "@/api/modules/base/dept";
 import { useAppStore } from "@/stores/modules/appStore";
-import { sysDept } from "@/api/interface/system/sysDept";
 import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
 import "vue-json-viewer/style.css";
 import JsonViewer from "vue-json-viewer";
@@ -152,38 +148,9 @@ const genderOptions = ref<Option[]>([
 ]);
 // 接收父组件传过来的参数
 const acceptParams = async (params: DrawerProps) => {
-  let queryStatus = await init(params);
-  // 数据查询成功 则弹出来界面  不成功便成仁
-  if (queryStatus) {
-    drawerProps.value = params;
-    drawerVisible.value = true;
-  }
+  drawerProps.value = params;
+  drawerVisible.value = true;
 };
-let getRoles = ref<sysRole.SysRole[]>();
-let getDepts = ref<sysDept.DeptTree[]>();
-
-/*
- *
- *@author  党亚南
- * 1.   不要呜呜啦啦写一堆废话代码  用 await链式查询数据 精简代码
- * 2.   子组件的数据查询 要写到触发函数里面  不要写在外边
- * 3.   写注释！
- *
- *
- *
- * */
-async function init(params) {
-  try {
-    // 获取角色列表
-    getRoles.value = (await getRoleList()).data;
-    // 获取部门列表
-    getDepts.value = (await getDeptTree({})).data;
-    return true;
-  } catch (e) {
-    ElMessage.error("服务器接口发生异常，请稍后尝试");
-    return false;
-  }
-}
 
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();

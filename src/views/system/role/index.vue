@@ -82,7 +82,6 @@
             show-checkbox
             ref="menu"
             node-key="menuId"
-            default-expand-all
             :check-strictly="false"
             empty-text="加载中，请稍候"
             :props="defaultProps"
@@ -102,14 +101,21 @@ import ProTable from "@/components/ProTable/index.vue";
 import { useHandleData } from "@/hooks/useHandleData";
 import { ElMessage } from "element-plus";
 import Drawer from "./Drawer.vue";
-import { changeStatusById } from "@/api/modules/system1/roles"; //根据表格获取角色名单
 import { nextTick, reactive, ref } from "vue";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { BaseSite } from "@/api/interface/player/baseSite";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useAppStore } from "@/stores/modules/appStore";
-import { addRole, assignRoleMenu, deleteRole, getMenuByRoleId, getRolePage, updateRole } from "@/api/modules/system/role";
+import {
+  addRole,
+  assignRoleMenu,
+  changeRoleStatus,
+  deleteRole,
+  getMenuByRoleId,
+  getRolePage,
+  updateRole
+} from "@/api/modules/system/role";
 import { sysRole } from "@/api/interface/system/sysRole";
 import { AuthUtils } from "@/utils/auth";
 
@@ -235,10 +241,10 @@ const columns: ColumnProps<sysRole.Role>[] = [
 
 // 切换状态
 const changeStatus = async (params: sysRole.Role) => {
-  const newStatus = params.roleStatus === 1 ? 0 : 1;
-  const requestData = { roleId: params.roleId, roleStatus: newStatus };
+  const newStatus = params.enabled === 1 ? 0 : 1;
+  const requestData = { roleId: params.roleId, enabled: newStatus };
   const message = `切换【${params.roleName}】角色状态`;
-  await useHandleData(changeStatusById, requestData, message);
+  await useHandleData(changeRoleStatus, requestData, message);
   proTable.value?.getTableList();
 };
 </script>
