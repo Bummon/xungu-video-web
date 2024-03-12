@@ -102,6 +102,16 @@ const columns: ColumnProps<User.ResUserList>[] = [
     align: "left"
   },
   {
+    prop: "identifier",
+    label: "Identifier",
+    align: "left"
+  },
+  {
+    prop: "expireTime",
+    label: "过期时长（秒）",
+    align: "left"
+  },
+  {
     prop: "enabled",
     label: TableLabelEnum.Status,
     align: "left",

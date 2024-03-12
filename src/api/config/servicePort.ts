@@ -6,8 +6,10 @@ export const DEPARTMENT = "/system/dept";
 export const DEPARTMENTS = "/system/common";
 export const LOGIN_LOG = "/system/loginLog";
 export const OPERATION_LOG = "/system/operationLog";
+export const EXCEPTION_LOG = "/system/exceptionLog";
 export const AI_CONFIG = "/system/aiConfig";
 export const SYS_CONFIG = "/system/config";
+export const EQUIPMENT = "/business/equipment";
 export const SINGLE_UPLOAD = "/common/upload";
 export const MULTI_UPLOAD = "/common/uploads";
 

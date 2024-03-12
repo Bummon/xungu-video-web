@@ -2,8 +2,8 @@
   <div class="table-box">
     <ProTable
       ref="proTable"
-      title="操作日志"
-      rowKey="operId"
+      title="异常日志"
+      rowKey="exceptionId"
       :columns="columns"
       :request-api="getTableList"
       :init-param="initParam"
@@ -12,7 +12,13 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <!--        -->
-        <el-button v-has="'system:loginLog:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:exceptionLog:remove'"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -31,10 +37,10 @@
       </template>
       <!-- 表格操作 -->
       <template #operation="scope">
-        <el-button v-has="'system:operationLog:query'" type="primary" link icon="View" @click="openDrawer('查看', scope.row)"
+        <el-button v-has="'system:exceptionLog:query'" type="primary" link icon="View" @click="openDrawer('查看', scope.row)"
           >查看
         </el-button>
-        <el-button v-has="'system:loginLog:remove'" type="primary" link icon="Delete" @click="deleteAccount(scope.row)">
+        <el-button v-has="'system:exceptionLog:remove'" type="primary" link icon="Delete" @click="deleteAccount(scope.row)">
           删除
         </el-button>
       </template>
@@ -50,10 +56,11 @@ import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { deleteOperationLog, getOperationLogPage } from "@/api/modules/system/operationLog";
 import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
-import Drawer from "@/views/system/operationLog/Drawer.vue";
+import Drawer from "./Drawer.vue";
 import { addUser, updateUser } from "@/api/modules/system/user";
+import { deleteExceptionLog, getExceptionLogPage } from "@/api/modules/system/exceptionLog";
+import { SysExceptionLog } from "@/api/interface/system/sysExceptionLog";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
@@ -71,7 +78,7 @@ const dataCallback = (data: any) => {
 
 const getTableList = (params: sysOperationLog.OperationLog) => {
   let newParams = JSON.parse(JSON.stringify(params));
-  return getOperationLogPage(newParams);
+  return getExceptionLogPage(newParams);
 };
 // 表格配置项
 const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
@@ -121,15 +128,15 @@ const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];
 // 删除用户信息
-const deleteAccount = async (params: sysOperationLog.OperationLog) => {
-  await useHandleData(deleteOperationLog, [params.operId], `删除用户【${params.createUsername}】的操作日志`);
+const deleteAccount = async (params: SysExceptionLog.ExceptionLog) => {
+  await useHandleData(deleteExceptionLog, [params.exceptionId], `删除异常日志`);
   proTable.value?.getTableList();
 };
 
 // 批量删除用户信息
 const batchDelete = async (ids: number[] | bigint[]) => {
   console.log(ids);
-  await useHandleData(deleteOperationLog, ids, "删除所选用户操作日志");
+  await useHandleData(deleteExceptionLog, ids, "删除所选异常日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };

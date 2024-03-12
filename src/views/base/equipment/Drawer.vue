@@ -18,7 +18,7 @@
     </template>
     <el-form
       ref="ruleFormRef"
-      label-width="130px"
+      label-width="100px"
       label-suffix=" :"
       :rules="rules"
       :disabled="drawerProps.isView"
@@ -27,35 +27,45 @@
     >
       <el-row>
         <el-col :span="24">
-          <el-form-item label="SDK AppId" prop="apiKey">
-            <el-input type="text" v-model="drawerProps.row!.apiKey" placeholder="请填写SDK AppId" clearable></el-input>
+          <el-form-item label="设备名称" prop="equipmentName">
+            <el-input
+              v-model="drawerProps.row!.equipmentName"
+              placeholder="请填写设备名称"
+              clearable
+              :validate-event="false"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="Secret Key" prop="secretKey">
-            <el-input type="password" v-model="drawerProps.row!.secretKey" placeholder="请填写Secret Key" clearable></el-input>
+          <el-form-item label="设备ID" prop="equipmentCode">
+            <el-input
+              v-model="drawerProps.row!.equipmentCode"
+              placeholder="请填写设备ID"
+              clearable
+              :validate-event="false"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="Identifier" prop="identifier">
-            <el-input type="text" v-model="drawerProps.row!.identifier" placeholder="请填写Identifier" clearable></el-input>
+          <el-form-item label="IP" prop="ip">
+            <el-input v-model="drawerProps.row!.ip" placeholder="请填写设备IP" clearable :validate-event="false"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="过期时长（秒）" prop="expireTime">
-            <el-input-number
-              v-model="drawerProps.row!.expireTime"
-              style="width: 50%"
-              :min="86400"
-              :max="5184000"
-              placeholder="请填写过期时长"
-            />
+          <el-form-item label="描述" prop="remark">
+            <el-input
+              v-model.trim="drawerProps.row!.remark"
+              placeholder="请填写描述"
+              clearable
+              :rows="2"
+              type="textarea"
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -71,21 +81,19 @@
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 import { useAppStore } from "@/stores/modules/appStore";
-import { sysAiConfig } from "@/api/interface/system/sysAiConfig";
+import { sysRole } from "@/api/interface/system/sysRole";
 
 const appStore = useAppStore();
 const rules = reactive({
-  apiKey: [{ required: true, message: "请填写SDK AppId" }],
-  secretKey: [{ required: true, trigger: "blur", message: "请填写Secret Key" }, { trigger: "blur" }],
-  identifier: [{ required: true, trigger: "blur", message: "请填写Identifier" }, { trigger: "blur" }],
-  expireTime: [{ required: true, message: "请填写过期时长" }],
-  enabled: [{ required: true, message: "请选择状态" }]
+  equipmentCode: [{ trigger: "blur", required: true, message: "请填写设备ID" }],
+  equipmentName: [{ trigger: "blur", required: true, message: "请填写设备名称" }],
+  ip: [{ trigger: "blur", required: true, message: "请填写设备IP" }]
 });
 
 interface DrawerProps {
   title: string;
   isView: boolean;
-  row: Partial<sysAiConfig.AiConfig>;
+  row: Partial<sysRole.Role>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }
@@ -97,12 +105,8 @@ const drawerProps = ref<DrawerProps>({
   row: {}
 });
 
-interface Option {
-  label: string;
-  key: number;
-}
 // 接收父组件传过来的参数
-const acceptParams = async (params: DrawerProps) => {
+const acceptParams = (params: DrawerProps) => {
   drawerProps.value = params;
   drawerVisible.value = true;
 };
@@ -117,9 +121,8 @@ const handleSubmit = () => {
     if (loading.value) return;
     try {
       loading.value = true;
-      console.log(drawerProps);
       await drawerProps.value.api!(drawerProps.value.row);
-      ElMessage.success({ message: `${drawerProps.value.title}SDK AppId成功！` });
+      ElMessage.success({ message: `${drawerProps.value.title}设备成功！` });
       drawerProps.value.getTableList!();
       drawerVisible.value = false;
     } catch (error) {

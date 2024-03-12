@@ -16,7 +16,7 @@
       </span>
       <span style="vertical-align: middle"> {{ drawerProps.title }} </span>
     </template>
-    <el-descriptions title="操作日志详情" column="2" size="default" direction="horizontal">
+    <el-descriptions title="异常日志详情" column="2" size="default" direction="horizontal">
       <el-descriptions-item label="模块">
         <el-tag effect="dark" type="info">{{ drawerProps.row.moduleName }}</el-tag>
       </el-descriptions-item>
@@ -63,7 +63,7 @@
       </el-descriptions-item>
     </el-descriptions>
     <el-descriptions>
-      <el-descriptions-item label="响应参数">
+      <el-descriptions-item label="异常信息">
         <JsonViewer
           :style="{
             mainHeight: 100,
@@ -75,11 +75,10 @@
           }"
           :boxed="false"
           :sort="true"
-          :expanded="false"
-          :show-array-index="true"
+          :show-array-index="false"
           :show-double-quotes="true"
           expand-depth="1"
-          :value="JSON.parse(drawerProps.row.responseJson)"
+          :value="JSON.parse(drawerProps.row.exceptionMsg)"
         ></JsonViewer>
       </el-descriptions-item>
     </el-descriptions>
@@ -91,14 +90,14 @@
 
 <script setup lang="ts" name="Drawer">
 import { ref } from "vue";
-import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
 import "vue-json-viewer/style.css";
 import JsonViewer from "vue-json-viewer";
+import { SysExceptionLog } from "@/api/interface/system/sysExceptionLog";
 
 interface DrawerProps {
   title: string;
   isView: boolean;
-  row: Partial<sysOperationLog.OperationLog>;
+  row: Partial<SysExceptionLog.ExceptionLog>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
 }

@@ -5,7 +5,9 @@
     <router-view v-slot="{ Component, route }">
       <transition appear name="fade-transform" mode="out-in">
         <keep-alive :include="keepAliveName">
-          <component :is="Component" :key="route.fullPath" v-if="isRouterShow" />
+          <div :key="route.fullPath">
+            <component :is="Component" v-if="isRouterShow" />
+          </div>
         </keep-alive>
       </transition>
     </router-view>
@@ -13,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount, provide, watch } from "vue";
+import { onBeforeUnmount, provide, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useDebounceFn } from "@vueuse/core";
 import { useGlobalStore } from "@/stores/modules/global";
