@@ -13,7 +13,14 @@
       <template #tableHeader="scope">
         <el-button v-has="'system:user:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
         <!--        -->
-        <el-button v-has="'system:user:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:user:remove'"
+          :disabled="!scope.isSelected"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -98,7 +105,7 @@ import { AuthUtils } from "@/utils/auth";
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {

@@ -15,3 +15,9 @@ export const userStatus = [
   { label: "启用", value: 1 },
   { label: "禁用", value: 0 }
 ];
+
+export const operationType = [
+  { label: "新增", value: 1 },
+  { label: "修改", value: 2 },
+  { label: "删除", value: 3 }
+];

@@ -13,7 +13,14 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <el-button v-has="'base:equipment:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
-        <el-button v-has="'system:loginLog:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:loginLog:remove'"
+          :disabled="!scope.isSelected"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -64,7 +71,17 @@ const columns: ColumnProps<sysRole.Role>[] = [
   { prop: "ip", label: "IP", width: TableWidthEnum.Name, align: "center" },
   { prop: "remark", label: "描述说明", align: "left" },
   { prop: "createUsername", label: "创建人", width: TableWidthEnum.PersonName, align: "left" },
-  { prop: "createTime", label: "创建时间", width: TableWidthEnum.LongTime, align: "left" },
+  {
+    prop: "createTime",
+    label: "创建时间",
+    width: TableWidthEnum.LongTime,
+    align: "left",
+    search: {
+      el: "date-picker",
+      span: 1,
+      props: { type: "daterange", valueFormat: "YYYY-MM-DD" }
+    }
+  },
   { prop: "operation", label: TableLabelEnum.Operation, width: TableWidthEnum.Handle3, fixed: "right" }
 ];
 
@@ -72,7 +89,7 @@ const authStore = useAuthStore();
 const appStore = useAppStore();
 const proTable = ref();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -111,8 +128,15 @@ const batchDelete = async (ids: number[] | bigint[]) => {
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
-const getTableList = params => {
+const getTableList = (params: TEquipment.Equipment) => {
   let newParams = JSON.parse(JSON.stringify(params));
+  if (params.createTime && params.createTime.length > 0) {
+    const startTime = params.createTime[0];
+    const endTime = params.createTime[1];
+    newParams.startTime = startTime + " 00:00:00.000";
+    newParams.endTime = endTime + " 23:59:59.999";
+    newParams.createTime = undefined;
+  }
   return getEquipmentPage(newParams);
 };
 </script>

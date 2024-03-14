@@ -25,48 +25,8 @@ export const staticRouter: RouteRecordRaw[] = [
     // component: () => import("@/layouts/indexAsync.vue"),
     redirect: HOME_URL,
     children: []
-  },
-  {
-    path: "/meetingController",
-    name: "meetingController",
-    component: () => import("@/views/meetingController/index.vue"),
-    meta: {
-      title: "会议室控制台"
-    }
   }
 ];
-// export const fixRouter: RouteRecordRaw[] = [
-//   {
-//     path: "/homeAdmin",
-//     name: "homeAdmin",
-//     component: () => import("@/layouts/index.vue"),
-//     meta: {
-//       icon: "HomeFilled",
-//       title: "首页",
-//       isLink: "",
-//       isHide: false,
-//       isFull: false,
-//       isAffix: true,
-//       isKeepAlive: true
-//     },
-//     children: [
-//       {
-//         path: "index",
-//         name: "homeAdmin",
-//         component: () => import("@/views/homeAdmin/index.vue"),
-//         meta: {
-//           icon: "HomeFilled",
-//           title: "首页",
-//           isLink: "",
-//           isHide: false,
-//           isFull: false,
-//           isAffix: true,
-//           isKeepAlive: true
-//         }
-//       }
-//     ]
-//   }
-// ];
 /**
  * errorRouter (错误页面路由)
  */

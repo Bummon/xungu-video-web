@@ -60,7 +60,7 @@ import { sysDepartment } from "@/api/interface/system1/sysDepartment";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
 import { useAuthStore } from "@/stores/modules/auth";
 import { addDept, deleteDept, getDeptTree, updateDept } from "@/api/modules/base/dept";
-import { sysDept } from "@/api/interface/system/sysDept";
+import { sysDept } from "@/api/interface/base/sysDept";
 import { AuthUtils } from "@/utils/auth";
 
 const authStore = useAuthStore();
@@ -81,7 +81,7 @@ const columns: ColumnProps<sysDept.DeptTree>[] = [
 ];
 
 // 如果表格需要初始化请求参数，直接定义传给 ProTable(之后每次请求都会自动带上该参数，此参数更改之后也会一直带上，改变此参数会自动刷新表格数据)
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
   return getDeptTree(newParams);

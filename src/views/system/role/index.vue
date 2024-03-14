@@ -123,7 +123,7 @@ const authStore = useAuthStore();
 const appStore = useAppStore();
 const proTable = ref();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -155,6 +155,16 @@ const menu = ref<InstanceType<typeof Menu> | null>(null);
 const currentIds = ref<number[]>([]);
 const menuOptions = ref<BaseSite.Option[]>([]);
 const dialogVisible = ref(false);
+
+const handleObj = data => {
+  data.forEach(item => {
+    currentIds.value.push(item);
+    if (item.children && item.children.length) {
+      handleObj(item.children);
+    }
+  });
+};
+
 /**
  * 打开配置菜单
  * @param row
@@ -176,14 +186,6 @@ const configDrawer = async (row: Partial<sysRole.SysRole> = {}) => {
   });
   nextTick(() => {
     menu.value?.setCheckedKeys(currentList, false);
-  });
-};
-const handleObj = data => {
-  data.forEach(item => {
-    currentIds.value.push(item);
-    if (item.children && item.children.length) {
-      handleObj(item.children);
-    }
   });
 };
 const getMenuAllCheckedKeys = () => {

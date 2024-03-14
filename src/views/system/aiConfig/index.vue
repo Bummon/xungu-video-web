@@ -13,7 +13,14 @@
       <template #tableHeader="scope">
         <el-button v-has="'system:aiConfig:add'" type="primary" icon="CirclePlus" @click="openDrawer('新增')">新增 </el-button>
         <!--        -->
-        <el-button v-has="'system:aiConfig:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:aiConfig:remove'"
+          :disabled="!scope.isSelected"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -57,7 +64,6 @@ import ProTable from "@/components/ProTable/index.vue";
 import Drawer from "./Drawer.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { UserDeptHandle } from "@/views/system/user/index";
 import { AuthUtils } from "@/utils/auth";
 import { sysAiConfig } from "@/api/interface/system/sysAiConfig";
 import {
@@ -71,7 +77,7 @@ import {
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {

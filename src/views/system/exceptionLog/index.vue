@@ -14,6 +14,7 @@
         <!--        -->
         <el-button
           v-has="'system:exceptionLog:remove'"
+          :disabled="!scope.isSelected"
           type="danger"
           icon="Delete"
           plain
@@ -56,16 +57,16 @@ import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { TableLabelEnum, TableWidthEnum } from "@/enums/TableEnum";
-import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
 import Drawer from "./Drawer.vue";
 import { addUser, updateUser } from "@/api/modules/system/user";
 import { deleteExceptionLog, getExceptionLogPage } from "@/api/modules/system/exceptionLog";
 import { SysExceptionLog } from "@/api/interface/system/sysExceptionLog";
+import { operationType } from "@/utils/serviceDict";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -76,12 +77,19 @@ const dataCallback = (data: any) => {
   };
 };
 
-const getTableList = (params: sysOperationLog.OperationLog) => {
+const getTableList = (params: SysExceptionLog.ExceptionLog) => {
   let newParams = JSON.parse(JSON.stringify(params));
+  if (params.createTime && params.createTime.length > 0) {
+    const startTime = params.createTime[0];
+    const endTime = params.createTime[1];
+    newParams.startTime = startTime + " 00:00:00.000";
+    newParams.endTime = endTime + " 23:59:59.999";
+    newParams.createTime = undefined;
+  }
   return getExceptionLogPage(newParams);
 };
 // 表格配置项
-const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
+const columns: ColumnProps<SysExceptionLog.ExceptionLog>[] = [
   { type: "selection", fixed: "left", width: TableWidthEnum.Select },
   { type: "index", label: TableLabelEnum.Index, width: 50 },
   {
@@ -111,7 +119,11 @@ const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
     prop: "type",
     label: "类型",
     align: "left",
-    width: TableWidthEnum.PersonName
+    width: TableWidthEnum.PersonName,
+    search: {
+      el: "select"
+    },
+    enum: operationType
   },
   {
     prop: "isSuccess",
@@ -123,7 +135,12 @@ const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
     prop: "createTime",
     label: "操作时间",
     align: "left",
-    width: TableWidthEnum.LongTime
+    width: TableWidthEnum.LongTime,
+    search: {
+      el: "date-picker",
+      span: 1,
+      props: { type: "daterange", valueFormat: "YYYY-MM-DD" }
+    }
   },
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];
@@ -143,7 +160,7 @@ const batchDelete = async (ids: number[] | bigint[]) => {
 
 // 打开 drawer(查看)
 const drawerRef = ref<InstanceType<typeof Drawer> | null>(null);
-const openDrawer = (title: string, row: Partial<sysOperationLog.OperationLog> = {}) => {
+const openDrawer = (title: string, row: Partial<SysExceptionLog.ExceptionLog> = {}) => {
   const params = {
     title,
     isView: title === "查看",

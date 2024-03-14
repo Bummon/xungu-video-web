@@ -6,7 +6,7 @@ export namespace sysLoginLog {
     responseMsg: string;
     isSuccess: number;
     remark: string;
-    loginTime: number;
+    loginTime: string;
   }
 
   export interface LoginLogQueryBo {

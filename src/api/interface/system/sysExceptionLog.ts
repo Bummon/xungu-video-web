@@ -13,6 +13,6 @@ export namespace SysExceptionLog {
     exceptionMsg: string;
     createUserId?: number | bigint;
     createUsername?: string;
-    createTime?: string;
+    createTime?: string[];
   }
 }

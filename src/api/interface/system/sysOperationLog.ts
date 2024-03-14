@@ -14,6 +14,11 @@ export namespace sysOperationLog {
     remark?: string;
     createUserId?: number | bigint;
     createUsername?: string;
-    createTime?: string;
+    createTime?: string[];
+  }
+
+  export interface OperationLogQuery extends OperationLog {
+    startTime: string;
+    endTime: string;
   }
 }

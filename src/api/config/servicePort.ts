@@ -10,6 +10,7 @@ export const EXCEPTION_LOG = "/system/exceptionLog";
 export const AI_CONFIG = "/system/aiConfig";
 export const SYS_CONFIG = "/system/config";
 export const EQUIPMENT = "/business/equipment";
+export const MEETING = "/business/meeting";
 export const SINGLE_UPLOAD = "/common/upload";
 export const MULTI_UPLOAD = "/common/uploads";
 

@@ -12,7 +12,14 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <!--        -->
-        <el-button v-has="'system:loginLog:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:loginLog:remove'"
+          :disabled="!scope.isSelected"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -48,7 +55,7 @@ import { deleteLoginLog, getLoginLogPage } from "@/api/modules/system/loginLog";
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -61,6 +68,13 @@ const dataCallback = (data: any) => {
 
 const getTableList = (params: sysLoginLog.LoginLog) => {
   let newParams = JSON.parse(JSON.stringify(params));
+  if (params.loginTime && params.loginTime.length > 0) {
+    const startTime = params.loginTime[0];
+    const endTime = params.loginTime[1];
+    newParams.startTime = startTime + " 00:00:00.000";
+    newParams.endTime = endTime + " 23:59:59.999";
+    newParams.loginTime = undefined;
+  }
   return getLoginLogPage(newParams);
 };
 // 表格配置项
@@ -92,7 +106,12 @@ const columns: ColumnProps<sysLoginLog.LoginLog>[] = [
   {
     prop: "loginTime",
     label: "登录时间",
-    align: "left"
+    align: "left",
+    search: {
+      el: "date-picker",
+      span: 1,
+      props: { type: "daterange", valueFormat: "YYYY-MM-DD" }
+    }
   },
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];

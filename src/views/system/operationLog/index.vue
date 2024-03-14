@@ -12,7 +12,14 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <!--        -->
-        <el-button v-has="'system:loginLog:remove'" type="danger" icon="Delete" plain @click="batchDelete(scope.selectedListIds)">
+        <el-button
+          v-has="'system:loginLog:remove'"
+          :disabled="!scope.isSelected"
+          type="danger"
+          icon="Delete"
+          plain
+          @click="batchDelete(scope.selectedListIds)"
+        >
           批量删除
         </el-button>
       </template>
@@ -54,11 +61,12 @@ import { deleteOperationLog, getOperationLogPage } from "@/api/modules/system/op
 import { sysOperationLog } from "@/api/interface/system/sysOperationLog";
 import Drawer from "@/views/system/operationLog/Drawer.vue";
 import { addUser, updateUser } from "@/api/modules/system/user";
+import { operationType } from "@/utils/serviceDict";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref<ProTableInstance>();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({});
 
 const dataCallback = (data: any) => {
   return {
@@ -69,8 +77,15 @@ const dataCallback = (data: any) => {
   };
 };
 
-const getTableList = (params: sysOperationLog.OperationLog) => {
+const getTableList = (params: sysOperationLog.OperationLogQuery) => {
   let newParams = JSON.parse(JSON.stringify(params));
+  if (params.createTime && params.createTime.length > 0) {
+    const startTime = params.createTime[0];
+    const endTime = params.createTime[1];
+    newParams.startTime = startTime + " 00:00:00.000";
+    newParams.endTime = endTime + " 23:59:59.999";
+    newParams.createTime = undefined;
+  }
   return getOperationLogPage(newParams);
 };
 // 表格配置项
@@ -104,7 +119,11 @@ const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
     prop: "type",
     label: "类型",
     align: "left",
-    width: TableWidthEnum.PersonName
+    width: TableWidthEnum.PersonName,
+    search: {
+      el: "select"
+    },
+    enum: operationType
   },
   {
     prop: "isSuccess",
@@ -116,7 +135,12 @@ const columns: ColumnProps<sysOperationLog.OperationLog>[] = [
     prop: "createTime",
     label: "操作时间",
     align: "left",
-    width: TableWidthEnum.LongTime
+    width: TableWidthEnum.LongTime,
+    search: {
+      el: "date-picker",
+      span: 1,
+      props: { type: "daterange", valueFormat: "YYYY-MM-DD" }
+    }
   },
   { prop: "operation", label: TableLabelEnum.Operation, fixed: "right", width: 330 }
 ];
