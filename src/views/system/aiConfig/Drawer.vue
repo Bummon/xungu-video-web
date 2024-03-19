@@ -28,14 +28,20 @@
       <el-row>
         <el-col :span="24">
           <el-form-item label="SDK AppId" prop="apiKey">
-            <el-input type="text" v-model="drawerProps.row!.apiKey" placeholder="请填写SDK AppId" clearable></el-input>
+            <el-input type="number" v-model="drawerProps.row!.apiKey" placeholder="请填写SDK AppId" clearable></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
           <el-form-item label="Secret Key" prop="secretKey">
-            <el-input type="password" v-model="drawerProps.row!.secretKey" placeholder="请填写Secret Key" clearable></el-input>
+            <el-input
+              type="password"
+              show-password
+              v-model="drawerProps.row!.secretKey"
+              placeholder="请填写Secret Key"
+              clearable
+            ></el-input>
           </el-form-item>
         </el-col>
       </el-row>

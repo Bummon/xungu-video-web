@@ -92,6 +92,7 @@ const getTableList = (params: sysAiConfig.AiConfig) => {
   let newParams = JSON.parse(JSON.stringify(params));
   return getAiConfigPage(newParams);
 };
+
 // 表格配置项
 const columns: ColumnProps<User.ResUserList>[] = [
   { type: "selection", fixed: "left", width: TableWidthEnum.Select },
@@ -110,24 +111,20 @@ const columns: ColumnProps<User.ResUserList>[] = [
   {
     prop: "identifier",
     label: "Identifier",
-    align: "left"
+    align: "left",
+    width: TableWidthEnum.PersonName
   },
   {
     prop: "expireTime",
     label: "过期时长（秒）",
-    align: "left"
+    align: "left",
+    width: TableWidthEnum.BigIntNum
   },
   {
     prop: "enabled",
     label: TableLabelEnum.Status,
     align: "left",
     width: TableWidthEnum.Status
-  },
-  {
-    prop: "createTime",
-    label: "创建时间",
-    align: "left",
-    width: TableWidthEnum.LongTime
   },
   {
     prop: "modifyTime",

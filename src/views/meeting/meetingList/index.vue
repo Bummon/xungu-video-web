@@ -75,7 +75,7 @@ const columns: ColumnProps<TMeeting.Meeting>[] = [
 
 const proTable = ref();
 
-const initParam = reactive({ statusType: 1 });
+const initParam = reactive({ meetStatusArr: [0, 1] });
 
 const dataCallback = (data: any) => {
   return {
