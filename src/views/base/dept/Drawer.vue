@@ -98,6 +98,7 @@ import { ref, reactive } from "vue";
 import { ElMessage, FormInstance, ElNotification } from "element-plus";
 import { sysDepartment } from "@/api/interface/system1/sysDepartment";
 import { getTreeList } from "@/api/modules/system1/organization";
+import { sysDept } from "@/api/interface/base/sysDept";
 
 const rules = reactive({
   deptName: [{ required: true, message: "请填写部门名称" }],
@@ -117,27 +118,14 @@ const rules = reactive({
 interface DrawerProps {
   title: string;
   isView: boolean;
-  isLowLevel: boolean;
-  row: Partial<sysDepartment.Department>;
+  row: Partial<sysDept.Dept>;
   api?: (params: any) => Promise<any>;
   getTableList?: () => void;
   tableData: [];
 }
-
-const props = {
-  label: "deptName",
-  children: "children",
-  value: "deptId"
-};
-const propsOrg = {
-  label: "orgName",
-  children: "children",
-  value: "orgId"
-};
 const drawerVisible = ref(false);
 const drawerProps = ref<DrawerProps>({
   isView: false,
-  isLowLevel: false,
   title: "",
   row: {},
   tableData: []
@@ -156,6 +144,8 @@ const acceptParams = async (params: DrawerProps) => {
     drawerProps.value.row.deptName = "";
     drawerProps.value.row.deptId = null;
     drawerProps.value.row.deptSort = null;
+    drawerProps.value.row.deptLeader = null;
+    drawerProps.value.row.deptPhone = null;
   } else {
     drawerProps.value = params;
   }

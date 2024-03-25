@@ -157,7 +157,13 @@ const columns: ColumnProps<User.ResUserList>[] = [
     label: "部门",
     align: "left",
     width: TableWidthEnum.PersonName,
-    search: { el: "tree-select", key: "deptId" },
+    search: {
+      el: "tree-select",
+      key: "deptId",
+      props: {
+        "check-strictly": true
+      }
+    },
     enum: async () => {
       let data = await UserDeptHandle.getDeptList();
       return { data: data };

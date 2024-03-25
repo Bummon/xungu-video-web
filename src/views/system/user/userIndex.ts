@@ -4,29 +4,26 @@ import { sysDept } from "@/api/interface/base/sysDept";
 
 export class UserDeptHandle {
   static getDeptList(): Promise<[] | DataType.Cascade[]> {
+    function getChildren(parentId: number, deptList: sysDept.Dept[]): DataType.Cascade[] {
+      let children: DataType.Cascade[] = [];
+      deptList.forEach((dept: sysDept.Dept) => {
+        if (dept.parentId === parentId) {
+          children.push({
+            label: dept.deptName,
+            value: dept.deptId,
+            children: getChildren(dept.deptId, deptList) // 递归调用以构建子部门
+          });
+          //console.log(children);
+        }
+      });
+      return children;
+    }
+
     return new Promise(async (resolve, reject) => {
       try {
-        let data: DataType.Cascade[] | [] = [];
-        // 父部门
-        let parentList = (await getDeptList({ parentId: 0, enabled: 1 })).data;
-        // 子部门
-        let childList = (await getDeptList({ parentId: 1, enabled: 1 })).data;
-
-        parentList.forEach(parentDept => {
-          let tmp: DataType.Cascade = {
-            label: parentDept.deptName,
-            value: parentDept.deptId,
-            children: []
-          };
-          childList.forEach((childDept: sysDept.Dept) => {
-            if (childDept.parentId === parentDept.deptId) {
-              tmp.children.push({ label: childDept.deptName, value: childDept.deptId });
-            }
-          });
-          if (tmp.children?.length > 0) {
-            data.push(tmp);
-          }
-        });
+        let deptList = (await getDeptList({ enabled: 1 })).data;
+        let data: DataType.Cascade[] | [] = getChildren(0, deptList);
+        console.log(data);
         resolve(data);
       } catch (e) {
         reject([]);

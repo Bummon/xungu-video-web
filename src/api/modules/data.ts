@@ -10,8 +10,10 @@ export namespace DataType {
     value: number | bigint | string;
     children: children[];
   }
+
   interface children {
     label: string;
     value: number | bigint | string;
+    children?: children[];
   }
 }

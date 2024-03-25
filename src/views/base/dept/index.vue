@@ -106,17 +106,8 @@ const changeStatus = async (params: sysDepartment.Department) => {
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof Drawer> | null>(null);
 const openDrawer = (title: string, row: Partial<sysDepartment.Department> = {}) => {
-  let lowLevel = false;
-  // 存在父菜单 且父菜单为0  才是最高级别选项
-  if (row?.parentId && row?.parentId !== 0) {
-    lowLevel = true;
-  }
-  if (title === "新增") {
-    lowLevel = true;
-  }
   const params = {
     title,
-    isLowLevel: lowLevel, // 是否是低级选项  低级选项不可选择父公司
     isView: title === "查看",
     row: { ...row },
     api: title === "新增" || title === "新增一级" ? addDept : title === "编辑" ? updateDept : undefined,
