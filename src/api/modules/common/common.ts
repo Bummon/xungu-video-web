@@ -2,7 +2,7 @@ import http from "@/api";
 import { MULTI_UPLOAD, SINGLE_UPLOAD } from "@/api/config/servicePort";
 import { common } from "@/api/interface/common/common";
 
-export const uploadFile = (params: File) => {
+export const uploadFile = (params: File | FormData) => {
   return http.post<common.File>(SINGLE_UPLOAD, params);
 };
 

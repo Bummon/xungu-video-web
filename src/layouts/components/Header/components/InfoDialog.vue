@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { ElNotification, FormInstance } from "element-plus";
-import { UserHttp } from "@/api/modules/system1/user";
+import { ElNotification, FormInstance, UploadRequestOptions } from "element-plus";
 import { useUserStore } from "@/stores/modules/user";
 import avatarDefault from "@/assets/avatar/icon.png"; // 默认头像
-import { TerminalHandle } from "@/views/source/terminal/index";
-import { getMyInfo, updatePassword } from "@/api/modules/system/user";
+import { getMyInfo, getUserInfo, updatePassword, updateUserAvatar } from "@/api/modules/system/user";
 import { logoutApi } from "@/api/modules/login";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
+import { uploadFile } from "@/api/modules/common/common";
+import { isDev } from "@/utils/utils";
 
 //router
 const router = useRouter();
@@ -19,6 +19,7 @@ const loading = ref(false); // 模态框
 const userInfo = ref();
 const modifyFormFlag = ref(false); // 修改密码表单显示
 const isEnterAvatar = ref(false); // 鼠标是否进入头像框
+const prefix = isDev() ? import.meta.env.VITE_API_URL : null; //当前环境变量
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error("请再次输入密码"));
@@ -74,7 +75,8 @@ function handleSubmit(modifyFormRef: FormInstance | undefined) {
         };
         modifyFormFlag.value = false;
         await logoutApi();
-        await router.replace(LOGIN_URL);
+        userStore.setToken("");
+        router.replace(LOGIN_URL);
       } else {
         ElNotification({
           title: "操作",
@@ -101,11 +103,12 @@ function uploadSuccess() {
  * @param param
  */
 async function uploadAttachment(param: UploadRequestOptions) {
-  let excelFormData = new FormData();
-  excelFormData.append("file", param.file);
-  excelFormData.append("id", userInfo.value.userId);
   try {
-    const res = await UserHttp.updateAvatar(excelFormData);
+    let formData = new FormData();
+    formData.append("file", param.file);
+    const uploadRes = (await uploadFile(formData)).data;
+    console.log(uploadRes.fileUrl);
+    const res = await updateUserAvatar({ avatar: uploadRes.fileUrl });
     if (res.code === 200) {
       ElNotification({
         title: "温馨提示",
@@ -114,8 +117,9 @@ async function uploadAttachment(param: UploadRequestOptions) {
         duration: 10000,
         type: "success"
       });
-      console.log(res.data);
-      userInfo.value = await UserHttp.getDetailById(userStore.userInfo.userId);
+      console.log("uploadAvatar", uploadRes);
+      userInfo.value = (await getUserInfo(userStore.userInfo.userId)).data;
+      console.log(userInfo.value);
     }
   } catch (e) {
     console.log("上传失败", e);
@@ -145,7 +149,7 @@ defineExpose({ openDialog });
         <div class="top-slot"></div>
         <div class="main-left-top" @mouseenter="isEnterAvatar = true" @mouseleave="isEnterAvatar = false">
           <div class="avatar-img-box">
-            <div class="avatar-img" :style="`background-image:url(${userInfo?.avatar || avatarDefault});`"></div>
+            <div class="avatar-img" :style="`background-image:url(${prefix + userInfo?.avatar || avatarDefault});`"></div>
             <!--            <img :src="userInfo?.avatar || avatarDefault" alt="" />-->
             <div class="modify-avatar" v-if="isEnterAvatar">
               <el-upload :multiple="false" :on-success="uploadSuccess" action="#" :http-request="uploadAttachment">

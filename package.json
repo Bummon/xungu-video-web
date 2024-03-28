@@ -30,7 +30,6 @@
     "commit": "git add -A && czg && git push"
   },
   "dependencies": {
-    "vue-json-viewer": "^3",
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@amap/amap-jsapi-types": "^0.0.13",
     "@element-plus/icons-vue": "^2.1.0",
@@ -73,6 +72,7 @@
     "vue": "^3.3.4",
     "vue-demi": "^0.14.5",
     "vue-i18n": "^9.2.2",
+    "vue-json-viewer": "^3",
     "vue-router": "^4.2.4",
     "vue3-eventbus": "^2.0.0",
     "vue3-lazyload": "^0.3.6",

@@ -4,6 +4,8 @@ export namespace sysAiConfig {
     apiName: string;
     apiKey: string;
     secretKey: string;
+    identifier: string;
+    expireTime: number | bigint;
     enabled: number;
     remark?: string;
     createUserId?: number | bigint;

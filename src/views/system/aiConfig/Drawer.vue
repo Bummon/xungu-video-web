@@ -57,10 +57,11 @@
           <el-form-item label="过期时长（秒）" prop="expireTime">
             <el-input-number
               v-model="drawerProps.row!.expireTime"
-              style="width: 50%"
+              style="width: 80%"
               :min="86400"
               :max="5184000"
-              placeholder="请填写过期时长"
+              :precision="0"
+              placeholder="限制值在86400秒 - 5184000秒 之间"
             />
           </el-form-item>
         </el-col>
@@ -107,9 +108,13 @@ interface Option {
   label: string;
   key: number;
 }
+
 // 接收父组件传过来的参数
 const acceptParams = async (params: DrawerProps) => {
   drawerProps.value = params;
+  if (params.title == "新增") {
+    drawerProps.value.row.expireTime = 86400;
+  }
   drawerVisible.value = true;
 };
 

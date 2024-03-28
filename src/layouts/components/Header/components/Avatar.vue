@@ -2,7 +2,7 @@
   <el-dropdown trigger="click">
     <div class="avatar">
       <!--      <img src="@/assets/images/avatar.png" alt="avatar" />-->
-      <img src="@/assets/avatar/icon.png" alt="avatar" />
+      <img :src="prefix + userStore.userInfo?.avatar || avatarDefault" alt="avatar" />
     </div>
     <template #dropdown>
       <el-dropdown-menu>
@@ -39,12 +39,15 @@ import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import { logoutApi } from "@/api/modules/login";
 import { useUserStore } from "@/stores/modules/user";
-import { ElMessageBox, ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import InfoDialog from "./InfoDialog.vue";
 import PasswordDialog from "./PasswordDialog.vue";
+import avatarDefault from "@/assets/avatar/icon.png";
+import { isDev } from "@/utils";
 
 const router = useRouter();
 const userStore = useUserStore();
+const prefix = isDev() ? import.meta.env.VITE_API_URL : null; //当前环境变量
 
 // 退出登录
 const logout = () => {

@@ -3,7 +3,7 @@ export namespace common {
     fileName: string;
     fileSize: number | bigint;
     newFileName: string;
-    url: string;
+    fileUrl: string;
     originalFilename: string;
     fileLength: string;
   }
@@ -12,7 +12,7 @@ export namespace common {
     fileNames: string;
     fileSize: string;
     newFileNames: string;
-    urls: string;
+    fileUrls: string;
     originalFilenames: string;
     fileLength: string;
   }

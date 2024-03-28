@@ -58,3 +58,7 @@ export const exportUserData = (params: sysUser.User) => {
 export const updatePassword = (params: { oldPassword: string; newPassword: string }) => {
   return http.post(USER + `/password`, params);
 };
+
+export const updateUserAvatar = (params: { avatar: string }) => {
+  return http.post(USER + `/updateAvatar`, params);
+};

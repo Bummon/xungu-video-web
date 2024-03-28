@@ -34,6 +34,7 @@ export interface UserState {
 export interface UserInfo {
   name: string;
   userId: number | bigint;
+  avatar: string;
 }
 
 /* tabsMenuProps */

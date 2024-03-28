@@ -73,7 +73,7 @@ const login = (formEl: FormInstance | undefined) => {
 
       userStore.setToken(data.token);
 
-      let userInfo: UserInfo = { name: data.nickname, userId: data.userId };
+      let userInfo: UserInfo = { name: data.nickname, userId: data.userId, avatar: data.avatar };
       userStore.setUserInfo(userInfo);
 
       // 2.添加动态路由

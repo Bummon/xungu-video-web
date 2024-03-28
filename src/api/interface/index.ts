@@ -94,6 +94,8 @@ export namespace Login {
     nickname: string;
     userId: number | bigint;
     token: string;
+
+    avatar: string;
   }
 
   /**
