@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, nextTick } from "vue";
 import { ElNotification, FormInstance, UploadRequestOptions } from "element-plus";
 import { useUserStore } from "@/stores/modules/user";
 import avatarDefault from "@/assets/avatar/icon.png"; // 默认头像
@@ -118,7 +118,10 @@ async function uploadAttachment(param: UploadRequestOptions) {
         type: "success"
       });
       console.log("uploadAvatar", uploadRes);
-      userInfo.value = (await getUserInfo(userStore.userInfo.userId)).data;
+      nextTick(async () => {
+        userInfo.value = (await getUserInfo(userStore.userInfo.userId)).data;
+        userStore.setUserInfo(userInfo.value);
+      });
       console.log(userInfo.value);
     }
   } catch (e) {
@@ -134,9 +137,10 @@ async function uploadAttachment(param: UploadRequestOptions) {
 }
 
 async function init() {
-  let userId = userStore.userInfo.userId;
+  // let userId = userStore.userInfo.userId;
   //userInfo.value = await UserHttp.getDetailById(userId);
-  userInfo.value = (await getMyInfo()).data;
+  // userInfo.value = (await getMyInfo()).data;
+  userInfo.value = (await getUserInfo(userStore.userInfo.userId)).data;
   console.log("userInfo", userInfo.value);
 }
 
