@@ -61,10 +61,6 @@ const handleDateTypeChange = () => {
     const { startTime, endTime } = getStartAndEndOfYear();
     dateRange.value = [startTime, endTime];
   }
-  const startTime = dayjs(dateRange.value[0]).format("YYYY-MM-DD 00:00:00.000");
-  const endTime = dayjs(dateRange.value[1]).format("YYYY-MM-DD 23:59:59.999");
-  meetingNumCountRef.value?.getData(startTime, endTime);
-  countBarRef.value?.getData(startTime, endTime);
   handleDateChange();
 };
 </script>
