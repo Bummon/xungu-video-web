@@ -1,7 +1,6 @@
 <template>
   <el-dropdown trigger="click">
     <div class="avatar">
-      <!--      <img src="@/assets/images/avatar.png" alt="avatar" />-->
       <img :src="prefix + userStore.userInfo?.avatar || avatarDefault" alt="avatar" />
     </div>
     <template #dropdown>
@@ -12,12 +11,6 @@
           </el-icon>
           {{ $t("header.personalData") }}
         </el-dropdown-item>
-        <!--        <el-dropdown-item @click="openDialog('passwordRef')">-->
-        <!--          <el-icon>-->
-        <!--            <Edit />-->
-        <!--          </el-icon>-->
-        <!--          {{ $t("header.changePassword") }}-->
-        <!--        </el-dropdown-item>-->
         <el-dropdown-item @click="logout" divided>
           <el-icon>
             <SwitchButton />

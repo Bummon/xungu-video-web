@@ -9,6 +9,7 @@ import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
 import { uploadFile } from "@/api/modules/common/common";
 import { isDev } from "@/utils/utils";
+import { UserInfo } from "@/stores/interface";
 
 //router
 const router = useRouter();
@@ -16,7 +17,7 @@ const userStore = useUserStore();
 const dialogVisible = ref(false);
 const modifyFormRef = ref(); // 修改密码的表单
 const loading = ref(false); // 模态框
-const userInfo = ref();
+const userInfo = ref<UserInfo>();
 const modifyFormFlag = ref(false); // 修改密码表单显示
 const isEnterAvatar = ref(false); // 鼠标是否进入头像框
 const prefix = isDev() ? import.meta.env.VITE_API_URL : null; //当前环境变量
@@ -41,6 +42,14 @@ const formData = ref({
   newPassword: "",
   newPassword2: ""
 });
+
+async function init() {
+  let userId = userStore.userInfo.userId;
+  //userInfo.value = await UserHttp.getDetailById(userId);
+  userInfo.value = (await getMyInfo()).data;
+  console.log("userInfo", userInfo.value);
+}
+
 const openDialog = async () => {
   await init();
   dialogVisible.value = true;
@@ -120,6 +129,8 @@ async function uploadAttachment(param: UploadRequestOptions) {
       console.log("uploadAvatar", uploadRes);
       userInfo.value = (await getUserInfo(userStore.userInfo.userId)).data;
       console.log(userInfo.value);
+      userStore.setUserInfo(userInfo);
+      router.replace(LOGIN_URL);
     }
   } catch (e) {
     console.log("上传失败", e);
@@ -131,13 +142,6 @@ async function uploadAttachment(param: UploadRequestOptions) {
       type: "error"
     });
   }
-}
-
-async function init() {
-  let userId = userStore.userInfo.userId;
-  //userInfo.value = await UserHttp.getDetailById(userId);
-  userInfo.value = (await getMyInfo()).data;
-  console.log("userInfo", userInfo.value);
 }
 
 defineExpose({ openDialog });
