@@ -29,7 +29,7 @@ import { useAppStore } from "@/stores/modules/appStore";
 
 const appStore = useAppStore();
 const userStore = useUserStore();
-const username = computed(() => userStore.userInfo.name);
+const username = computed(() => userStore.userInfo.nickname);
 const noticeList = ref<WorkOrder.notice>([]);
 let label = "通知";
 let len = 0;

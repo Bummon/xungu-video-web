@@ -23,7 +23,7 @@
     <NumCount ref="meetingNumCountRef" />
     <Bar ref="countBarRef" />
     <div class="pie-charts-title">数据分布</div>
-    <TimePie ref="countPieRef" />
+    <Pie ref="countPieRef" />
   </div>
 </template>
 
@@ -33,7 +33,7 @@ import { ref } from "vue";
 import dayjs from "dayjs";
 import { getStartAndEndOfMonth, getStartAndEndOfWeek, getStartAndEndOfYear } from "@/utils/dateUtils";
 import Bar from "@/views/chart/component/Bar.vue";
-import TimePie from "@/views/chart/component/TimePie.vue";
+import Pie from "@/views/chart/component/Pie.vue";
 
 // 搜索默认项
 const dateType = ref<string>("week");

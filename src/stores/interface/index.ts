@@ -32,7 +32,7 @@ export interface UserState {
 }
 
 export interface UserInfo {
-  name: string;
+  nickname: string;
   userId: number | bigint;
   avatar: string;
 }

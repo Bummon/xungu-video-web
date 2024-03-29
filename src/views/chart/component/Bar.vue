@@ -14,6 +14,7 @@ import { onMounted, ref } from "vue";
 import { getDailyMeetingNumCount } from "@/api/modules/chart/chart";
 import { getStartAndEndOfWeek } from "@/utils/dateUtils";
 import type { TabsPaneContext } from "element-plus";
+
 const countType = ref("meetingCount");
 
 type EchartsOption = echarts.EChartsOption;
@@ -66,7 +67,7 @@ const initChart = (dateArr: string[], countArr: string[]) => {
       {
         name: "Direct",
         type: "bar",
-        barWidth: "60%",
+        barWidth: "40%",
         data: countArr
       }
     ]
@@ -124,7 +125,7 @@ defineExpose({
 
 <style scoped>
 .count-charts {
-  width: 1000px;
+  width: 100%;
   height: 200px;
 }
 </style>
