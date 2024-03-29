@@ -23,7 +23,7 @@
     <NumCount ref="meetingNumCountRef" />
     <Bar ref="countBarRef" />
     <div class="pie-charts-title">数据分布</div>
-    <TimePie />
+    <TimePie ref="countPieRef" />
   </div>
 </template>
 
@@ -41,7 +41,7 @@ const dateType = ref<string>("week");
 //ref
 const meetingNumCountRef = ref<InstanceType<typeof NumCount> | null>(null);
 const countBarRef = ref<InstanceType<typeof Bar> | null>(null);
-
+const countPieRef = ref<InstanceType<typeof TimePie> | null>(null);
 const { startTime, endTime } = getStartAndEndOfWeek();
 const dateRange = ref<{}>([startTime, endTime]);
 const handleDateChange = () => {
@@ -49,6 +49,7 @@ const handleDateChange = () => {
   const endTime = dayjs(dateRange.value[1]).format("YYYY-MM-DD 23:59:59.999");
   meetingNumCountRef.value?.getData(startTime, endTime);
   countBarRef.value?.getData(startTime, endTime);
+  countPieRef.value?.getData(startTime, endTime);
 };
 const handleDateTypeChange = () => {
   if (dateType.value === "week") {

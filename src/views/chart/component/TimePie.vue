@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="pie-charts" ref="countChartsRef"></div>
+    <div class="pie-charts" id="countChartsRef" ref="countChartsRef"></div>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ const props = ref<Props>({
 });
 
 const initChart = (dataArr: any) => {
-  let myChart = echarts.init(countChartsRef.value);
+  let myChart = echarts.init(document.getElementById("countChartsRef")!);
   option = {
     title: {
       subtext: "时长分布",
@@ -48,7 +48,7 @@ const initChart = (dataArr: any) => {
     },
     series: [
       {
-        name: "Access From",
+        name: "时长分布",
         type: "pie",
         radius: ["40%", "70%"],
         avoidLabelOverlap: false,
@@ -74,16 +74,7 @@ const initChart = (dataArr: any) => {
         labelLine: {
           show: false
         },
-        data: [
-          {
-            name: "111",
-            value: 1
-          },
-          {
-            name: "222",
-            value: 2
-          }
-        ]
+        data: dataArr
       }
     ]
   };
@@ -110,7 +101,11 @@ const getData = async (startTime: string, endTime: string) => {
 };
 
 onMounted(() => {
+  console.log(props.value);
   getData(props.value?.startTime, props.value?.endTime);
+});
+defineExpose({
+  getData
 });
 </script>
 
@@ -119,5 +114,6 @@ onMounted(() => {
   width: 500px;
   height: 300px;
   padding-top: 10px;
+  margin-right: 20px;
 }
 </style>

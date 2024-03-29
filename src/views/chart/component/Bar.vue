@@ -13,7 +13,7 @@ import * as echarts from "echarts";
 import { onMounted, ref } from "vue";
 import { getDailyMeetingNumCount } from "@/api/modules/chart/chart";
 import { getStartAndEndOfWeek } from "@/utils/dateUtils";
-
+import type { TabsPaneContext } from "element-plus";
 const countType = ref("meetingCount");
 
 type EchartsOption = echarts.EChartsOption;
@@ -72,9 +72,12 @@ const initChart = (dateArr: string[], countArr: string[]) => {
     ]
   };
   option && myChart.setOption(option);
+  window.addEventListener("resize", myChart.resize);
 };
 
-const handleClick = async () => {
+const handleClick = (tab: TabsPaneContext, event: Event) => {
+  console.log(tab.props.name, 111);
+  countType.value = tab.props.name;
   let dateArr = [];
   let countArr = [];
   if (countType.value === "meetingCount") {
@@ -86,7 +89,9 @@ const handleClick = async () => {
     dateArr = dailyMeetingDurationCount.map(item => item.date);
     countArr = dailyMeetingDurationCount.map(item => item.count);
   }
-  await initChart(dateArr, countArr);
+  console.log(countType.value);
+
+  initChart(dateArr, countArr);
 };
 
 const getData = async (startTime: string, endTime: string) => {
@@ -95,7 +100,13 @@ const getData = async (startTime: string, endTime: string) => {
     endTime: endTime
   };
   meetingCount.value = (await getDailyMeetingNumCount(data)).data;
-  handleClick();
+  // handleClick();
+  let dateArr = [];
+  let countArr = [];
+  const dailyMeetingCount = meetingCount.value?.dailyMeetingCount;
+  dateArr = dailyMeetingCount.map(item => item.date);
+  countArr = dailyMeetingCount.map(item => item.count);
+  initChart(dateArr, countArr);
 };
 
 onMounted(async () => {
