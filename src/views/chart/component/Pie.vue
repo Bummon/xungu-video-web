@@ -192,7 +192,7 @@ defineExpose({
 }
 .pie-charts {
   display: inline-block;
-  width: 500px;
+  width: 600px;
   height: 300px;
   padding-top: 10px;
   margin-right: 20px;

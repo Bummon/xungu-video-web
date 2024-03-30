@@ -36,6 +36,7 @@ const meetingCount = ref({});
 const chartBarWidth = ref("40%");
 const initChart = (dateArr: string[], countArr: string[]) => {
   let myChart = echarts.init(countChartsRef.value);
+  let seriesName = countType.value === "meetingCount" ? "数量" : "时长(min)";
   option = {
     tooltip: {
       trigger: "axis",
@@ -65,7 +66,7 @@ const initChart = (dateArr: string[], countArr: string[]) => {
     ],
     series: [
       {
-        name: "Direct",
+        name: seriesName,
         type: "bar",
         barWidth: chartBarWidth.value,
         data: countArr
@@ -79,17 +80,14 @@ const initChart = (dateArr: string[], countArr: string[]) => {
 //标签切换处理函数
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   countType.value = tab.props.name;
-  let dateArr = [];
-  let countArr = [];
+  let count;
   if (countType.value === "meetingCount") {
-    const dailyMeetingCount = meetingCount.value?.dailyMeetingCount;
-    dateArr = dailyMeetingCount.map(item => item.date);
-    countArr = dailyMeetingCount.map(item => item.count);
+    count = meetingCount.value?.dailyMeetingCount;
   } else if (countType.value === "meetingDurationCount") {
-    const dailyMeetingDurationCount = meetingCount.value?.dailyMeetingDurationCount;
-    dateArr = dailyMeetingDurationCount.map(item => item.date);
-    countArr = dailyMeetingDurationCount.map(item => item.count);
+    count = meetingCount.value?.dailyMeetingDurationCount;
   }
+  const dateArr = count.map(item => item.date);
+  const countArr = count.map(item => item.count);
   console.log(countType.value);
 
   initChart(dateArr, countArr);
