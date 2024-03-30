@@ -49,7 +49,7 @@ const columns: ColumnProps<TMeeting.Meeting>[] = [
       props: { type: "daterange", valueFormat: "YYYY-MM-DD" }
     }
   },
-  { prop: "meetDuration", label: "会议时长", align: "left" }
+  { prop: "meetDurationFormat", label: "会议时长", align: "left" }
   //{ prop: "operation", label: TableLabelEnum.Operation, fixed: "right" }
 ];
 const proTable = ref();

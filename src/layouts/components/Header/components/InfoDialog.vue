@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { reactive, ref, nextTick } from "vue";
+import { nextTick, reactive, ref } from "vue";
 import { ElNotification, FormInstance, UploadRequestOptions } from "element-plus";
 import { useUserStore } from "@/stores/modules/user";
 import avatarDefault from "@/assets/avatar/icon.png"; // 默认头像
-import { getMyInfo, getUserInfo, updatePassword, updateUserAvatar } from "@/api/modules/system/user";
+import { getUserInfo, updatePassword, updateUserAvatar } from "@/api/modules/system/user";
 import { logoutApi } from "@/api/modules/login";
 import { LOGIN_URL } from "@/config";
 import { useRouter } from "vue-router";
@@ -59,7 +59,8 @@ function handleSubmit(modifyFormRef: FormInstance | undefined) {
       // 1.执行请求
       const res = await updatePassword({
         oldPassword: formData.value.oldPassword,
-        newPassword: formData.value.newPassword
+        newPassword: formData.value.newPassword,
+        userType: 1
       });
       if (res.code === 200) {
         ElNotification({

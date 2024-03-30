@@ -41,7 +41,7 @@ const dateType = ref<string>("week");
 //ref
 const meetingNumCountRef = ref<InstanceType<typeof NumCount> | null>(null);
 const countBarRef = ref<InstanceType<typeof Bar> | null>(null);
-const countPieRef = ref<InstanceType<typeof TimePie> | null>(null);
+const countPieRef = ref<InstanceType<typeof Pie> | null>(null);
 const { startTime, endTime } = getStartAndEndOfWeek();
 const dateRange = ref<{}>([startTime, endTime]);
 const handleDateChange = () => {
