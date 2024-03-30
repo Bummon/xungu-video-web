@@ -20,7 +20,7 @@
         style="margin-left: 20px; vertical-align: bottom"
       />
     </div>
-    <NumCount ref="meetingNumCountRef" />
+    <NumCount ref="numCountRef" />
     <Bar ref="countBarRef" />
     <div class="pie-charts-title">数据分布</div>
     <Pie ref="countPieRef" />
@@ -39,18 +39,25 @@ import Pie from "@/views/chart/component/Pie.vue";
 const dateType = ref<string>("week");
 
 //ref
-const meetingNumCountRef = ref<InstanceType<typeof NumCount> | null>(null);
+const numCountRef = ref<InstanceType<typeof NumCount> | null>(null);
 const countBarRef = ref<InstanceType<typeof Bar> | null>(null);
 const countPieRef = ref<InstanceType<typeof Pie> | null>(null);
 const { startTime, endTime } = getStartAndEndOfWeek();
 const dateRange = ref<{}>([startTime, endTime]);
+
+//日期改变处理函数
 const handleDateChange = () => {
   const startTime = dayjs(dateRange.value[0]).format("YYYY-MM-DD 00:00:00.000");
   const endTime = dayjs(dateRange.value[1]).format("YYYY-MM-DD 23:59:59.999");
-  meetingNumCountRef.value?.getData(startTime, endTime);
-  countBarRef.value?.getData(startTime, endTime);
+  numCountRef.value?.getData(startTime, endTime);
   countPieRef.value?.getData(startTime, endTime);
+  if (dateType.value === "year") {
+    countBarRef.value?.getYearData(startTime, endTime, dateType.value);
+  } else {
+    countBarRef.value?.getData(startTime, endTime, dateType.value);
+  }
 };
+// 日期类型改变处理函数
 const handleDateTypeChange = () => {
   if (dateType.value === "week") {
     const { startTime, endTime } = getStartAndEndOfWeek();

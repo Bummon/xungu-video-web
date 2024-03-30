@@ -12,6 +12,11 @@ export const getDailyMeetingNumCount = (params: { startTime: string; endTime: st
   return http.post<Chart.DailyNumCount>(CHART + `/dailyCount`, params);
 };
 
+// 数据一览每月统计（年度）
+export const getYearMeetingNumCount = (params: { startTime: string; endTime: string }) => {
+  return http.post<Chart.DailyNumCount>(CHART + `/year/dailyCount`, params);
+};
+
 //数据一览环形图统计
 export const getComplexCount = (params: { startTime: string; endTime: string }) => {
   return http.post<Chart.ComplexCount>(CHART + `/complexCount`, params);

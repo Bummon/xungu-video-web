@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import * as echarts from "echarts";
 import { onMounted, ref } from "vue";
-import { getDailyMeetingNumCount } from "@/api/modules/chart/chart";
+import { getDailyMeetingNumCount, getYearMeetingNumCount } from "@/api/modules/chart/chart";
 import { getStartAndEndOfWeek } from "@/utils/dateUtils";
 import type { TabsPaneContext } from "element-plus";
 
@@ -33,7 +33,7 @@ const props = ref<Props>({
   endTime: endTime.format("YYYY-MM-DD 23:59:59.999")
 });
 const meetingCount = ref({});
-
+const chartBarWidth = ref("40%");
 const initChart = (dateArr: string[], countArr: string[]) => {
   let myChart = echarts.init(countChartsRef.value);
   option = {
@@ -67,7 +67,7 @@ const initChart = (dateArr: string[], countArr: string[]) => {
       {
         name: "Direct",
         type: "bar",
-        barWidth: "40%",
+        barWidth: chartBarWidth.value,
         data: countArr
       }
     ]
@@ -76,8 +76,8 @@ const initChart = (dateArr: string[], countArr: string[]) => {
   window.addEventListener("resize", myChart.resize);
 };
 
+//标签切换处理函数
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab.props.name, 111);
   countType.value = tab.props.name;
   let dateArr = [];
   let countArr = [];
@@ -95,12 +95,18 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   initChart(dateArr, countArr);
 };
 
-const getData = async (startTime: string, endTime: string) => {
-  const data = {
+//获取每日统计
+const getData = async (startTime: string, endTime: string, dateType: string) => {
+  if (dateType === "week") {
+    chartBarWidth.value = "10%";
+  } else if (dateType === "month") {
+    chartBarWidth.value = "40%";
+  }
+  const params = {
     startTime: startTime,
     endTime: endTime
   };
-  meetingCount.value = (await getDailyMeetingNumCount(data)).data;
+  meetingCount.value = (await getDailyMeetingNumCount(params)).data;
   // handleClick();
   let dateArr = [];
   let countArr = [];
@@ -110,8 +116,27 @@ const getData = async (startTime: string, endTime: string) => {
   initChart(dateArr, countArr);
 };
 
+//获取每月统计（年度）
+const getYearData = async (startTime: string, endTime: string, dateType) => {
+  if (dateType === "year") {
+    chartBarWidth.value = "20%";
+    console.log("year", chartBarWidth.value);
+  }
+  const params = {
+    startTime: startTime,
+    endTime: endTime
+  };
+  meetingCount.value = (await getYearMeetingNumCount(params)).data;
+  let dateArr = [];
+  let countArr = [];
+  const dailyMeetingCount = meetingCount.value?.dailyMeetingCount;
+  dateArr = dailyMeetingCount.map(item => item.date);
+  countArr = dailyMeetingCount.map(item => item.count);
+  initChart(dateArr, countArr);
+};
+
 onMounted(async () => {
-  await getData(props.value.startTime, props.value.endTime);
+  await getData(props.value.startTime, props.value.endTime, "week");
   let dailyMeetingCount = meetingCount.value?.dailyMeetingCount;
   let dateArr = dailyMeetingCount.map(item => item.date);
   let countArr = dailyMeetingCount.map(item => item.count);
@@ -119,7 +144,8 @@ onMounted(async () => {
 });
 
 defineExpose({
-  getData
+  getData,
+  getYearData
 });
 </script>
 
