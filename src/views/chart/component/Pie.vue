@@ -39,7 +39,8 @@ const initChart = (deptDataArr: any, durationDataArr: any) => {
       subtextStyle: {
         fontSize: "14px",
         color: "#000",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        lineHeight: 530
       },
       top: "-3px",
       left: "center"
@@ -89,7 +90,8 @@ const initChart = (deptDataArr: any, durationDataArr: any) => {
       subtextStyle: {
         fontSize: "14px",
         color: "#000",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        lineHeight: 530
       },
       top: "-3px",
       left: "center"
