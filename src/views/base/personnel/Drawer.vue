@@ -28,7 +28,12 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="用户名" prop="userAccount">
-            <el-input v-model="drawerProps.row!.userAccount" placeholder="请填写用户名" clearable></el-input>
+            <el-input
+              v-model="drawerProps.row!.userAccount"
+              onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5]/g,'')"
+              placeholder="请填写用户名"
+              clearable
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
