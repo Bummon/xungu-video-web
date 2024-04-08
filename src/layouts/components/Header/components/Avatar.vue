@@ -40,8 +40,8 @@ import { isDev } from "@/utils";
 
 const router = useRouter();
 const userStore = useUserStore();
-const prefix = isDev() ? import.meta.env.VITE_API_URL : null; //当前环境变量
 
+const prefix = isDev() ? import.meta.env.VITE_API_URL : ""; //当前环境变量
 // 退出登录
 const logout = () => {
   ElMessageBox.confirm("您是否确认退出登录?", "温馨提示", {

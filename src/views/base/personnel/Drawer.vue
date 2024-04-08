@@ -163,21 +163,6 @@ interface Option {
   key: number;
 }
 
-const genderOptions = ref<Option[]>([
-  { label: "男", key: 0 },
-  { label: "女", key: 1 }
-]);
-// 接收父组件传过来的参数
-const acceptParams = async (params: DrawerProps) => {
-  let queryStatus = await init(params);
-  // 数据查询成功 则弹出来界面  不成功便成仁
-  if (queryStatus) {
-    drawerProps.value = params;
-    drawerVisible.value = true;
-  }
-};
-let getDepts = ref<sysDept.DeptTree[]>();
-
 /*
  *
  *@author  党亚南
@@ -198,6 +183,21 @@ async function init(params) {
     return false;
   }
 }
+
+const genderOptions = ref<Option[]>([
+  { label: "男", key: 0 },
+  { label: "女", key: 1 }
+]);
+// 接收父组件传过来的参数
+const acceptParams = async (params: DrawerProps) => {
+  let queryStatus = await init(params);
+  // 数据查询成功 则弹出来界面  不成功便成仁
+  if (queryStatus) {
+    drawerProps.value = params;
+    drawerVisible.value = true;
+  }
+};
+let getDepts = ref<sysDept.DeptTree[]>();
 
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();

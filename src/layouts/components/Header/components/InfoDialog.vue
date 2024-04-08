@@ -19,7 +19,7 @@ const loading = ref(false); // 模态框
 const userInfo = ref();
 const modifyFormFlag = ref(false); // 修改密码表单显示
 const isEnterAvatar = ref(false); // 鼠标是否进入头像框
-const prefix = isDev() ? import.meta.env.VITE_API_URL : null; //当前环境变量
+const prefix = isDev() ? import.meta.env.VITE_API_URL : ""; //当前环境变量
 const validatePass2 = (rule, value, callback) => {
   if (value === "") {
     callback(new Error("请再次输入密码"));

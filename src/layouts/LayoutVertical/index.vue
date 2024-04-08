@@ -42,6 +42,7 @@ import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
 import { useAppStore } from "@/stores/modules/appStore";
 import { useLogoStore } from "@/stores/modules/logo";
 import { storeToRefs } from "pinia";
+import defaultLogo from "@/assets/icons/xungu-logo.svg";
 
 const appStore = useAppStore();
 const logoStore = useLogoStore();
@@ -54,13 +55,13 @@ const menuList = computed(() => authStore.showMenuListGet);
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
 
 const title = ref("视频会议");
-const logo = ref("src/assets/icons/xungu-logo.svg");
+const logo = ref(defaultLogo);
 
 const initLogo = async () => {
   await logoStore.getLogoConfig();
   const { systemName, systemLogo } = storeToRefs(logoStore);
   title!.value = systemName.value ? systemName.value : "视频会议";
-  logo!.value = systemLogo.value ? systemLogo.value : "src/assets/icons/xungu-logo.svg";
+  logo!.value = systemLogo.value ? systemLogo.value : defaultLogo;
 };
 
 onMounted(async () => {

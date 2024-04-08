@@ -5,7 +5,7 @@
       <Language id="language" />
       <SearchMenu id="searchMenu" />
       <ThemeSetting id="themeSetting" />
-      <Message id="message" v-model:notice-list="noticeList" :label="label" :len="len" :update="init" />
+      <!--<Message id="message" v-model:notice-list="noticeList" :label="label" :len="len" :update="init" />-->
       <Fullscreen id="fullscreen" />
     </div>
     <span class="username">{{ username }}</span>
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useUserStore } from "@/stores/modules/user";
 import AssemblySize from "./components/AssemblySize.vue";
 import Language from "./components/Language.vue";
@@ -22,20 +22,19 @@ import SearchMenu from "./components/SearchMenu.vue";
 import ThemeSetting from "./components/ThemeSetting.vue";
 import Fullscreen from "./components/Fullscreen.vue";
 import Avatar from "./components/Avatar.vue";
-import Message from "@/layouts/components/Header/components/Message.vue";
-import { WorkOrder } from "@/api/interface/work";
-import { OrderHandle } from "@/views/work/order/index";
+//import { WorkOrder } from "@/api/interface/work";
+//import { OrderHandle } from "@/views/work/order/index";
 import { useAppStore } from "@/stores/modules/appStore";
 
 const appStore = useAppStore();
 const userStore = useUserStore();
 const username = computed(() => userStore.userInfo.nickname);
-const noticeList = ref<WorkOrder.notice>([]);
+//const noticeList = ref<WorkOrder.notice>([]);
 let label = "通知";
 let len = 0;
 
 async function init() {
-  noticeList.value = await OrderHandle.getOrderNotice();
+  //noticeList.value = await OrderHandle.getOrderNotice();
   let list = noticeList.value.filter(n => {
     return n.noticeStatus === 0;
   });
