@@ -109,7 +109,7 @@ async function uploadAttachment(param: UploadRequestOptions) {
     formData.append("file", param.file);
     const uploadRes = (await uploadFile(formData)).data;
     console.log(uploadRes.fileUrl);
-    const res = await updateUserAvatar({ avatar: uploadRes.fileUrl });
+    const res = await updateUserAvatar({ avatar: uploadRes.fileUrl, type: 1 });
     if (res.code === 200) {
       ElNotification({
         title: "温馨提示",
