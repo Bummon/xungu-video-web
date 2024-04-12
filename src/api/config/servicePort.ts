@@ -14,6 +14,7 @@ export const MEETING = "/business/meeting";
 export const SINGLE_UPLOAD = "/common/upload";
 export const MULTI_UPLOAD = "/common/uploads";
 export const CHART = "/home";
+export const FEEDBACK = "/business/feedback";
 
 export const APP = "/system/sysApp/";
 export const DICT = "/system/sysDict";
